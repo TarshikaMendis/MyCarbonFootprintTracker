@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37314.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonFootprintTracker", "CarbonFootprintTracker\CarbonFootprintTracker.csproj", "{E44934D4-F69A-4B1B-9624-DB1D8D6DAA15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E44934D4-F69A-4B1B-9624-DB1D8D6DAA15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44934D4-F69A-4B1B-9624-DB1D8D6DAA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44934D4-F69A-4B1B-9624-DB1D8D6DAA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44934D4-F69A-4B1B-9624-DB1D8D6DAA15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A694F829-BCE1-4EF6-9F31-9A98F6EE4AE2}
+	EndGlobalSection
+EndGlobal
