@@ -11,7 +11,7 @@ namespace CarbonFootprintTracker.Data
         {
         }
 
-        // Carbon Footprint Table
+        // Carbon Record Table
         public DbSet<CarbonRecord> CarbonRecords { get; set; }
 
         // Carbon Activity Table
@@ -19,5 +19,8 @@ namespace CarbonFootprintTracker.Data
 
         //Recommendations Table
         public DbSet<Recommendation> Recommendations { get; set; }
+
+        // Rewards Table
+        public DbSet<Reward> Rewards { get; set; }
     }
 }
