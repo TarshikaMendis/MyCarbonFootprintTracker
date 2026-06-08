@@ -9,43 +9,37 @@ namespace CarbonFootprintTracker.Controllers
 {
     public class CarbonActivitiesController : Controller
     {
+
         private readonly ApplicationDbContext _context;
+
 
         public CarbonActivitiesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: CarbonActivities
+
+
+        // GET: Activities
         public async Task<IActionResult> Index()
         {
-            //  GET LOGGED-IN USER ID
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //  SHOW ONLY USER'S DATA
-            var data = await _context.CarbonActivities
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            var data =
+                await _context.CarbonActivities
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
+
 
             return View(data);
         }
 
-        // GET: Details
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-                return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var carbonactivity = await _context.CarbonActivities
-                .FirstOrDefaultAsync(m => m.Id == id && m.UserId == userId);
 
-            if (carbonactivity == null)
-                return NotFound();
-
-            return View(carbonactivity);
-        }
 
         // GET: Create
         public IActionResult Create()
@@ -53,145 +47,338 @@ namespace CarbonFootprintTracker.Controllers
             return View();
         }
 
+
+
+
+
         // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CarbonActivity carbonactivity)
+        public async Task<IActionResult> Create(
+            CarbonActivity carbonactivity)
         {
+
+
             if (ModelState.IsValid)
             {
-                //  GET LOGGED-IN USER ID
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                //  ASSIGN USER ID
+                var userId =
+                    User.FindFirstValue(
+                    ClaimTypes.NameIdentifier);
+
+
+
+                // connect user
                 carbonactivity.UserId = userId;
 
-                //  CALCULATE EMISSION
-                carbonactivity.CarbonEmission =
-                    CarbonCalculator.Calculate(
-                        carbonactivity.ActivityType,
-                        carbonactivity.Amount,
-                        carbonactivity.Unit
-                    );
 
-                //  SET DATE SAFETY
-                if (carbonactivity.Date == default)
+
+                // calculate emission
+                double emission =
+                    CarbonCalculator.Calculate(
+                    carbonactivity.ActivityType,
+                    carbonactivity.Amount,
+                    carbonactivity.Unit);
+
+
+
+                carbonactivity.CarbonEmission =
+                    emission;
+
+
+
+                carbonactivity.Date =
+                    DateTime.Now;
+
+
+
+                // save activity
+                _context.CarbonActivities.Add(carbonactivity);
+
+
+
+                // create carbon record
+
+                CarbonRecord record =
+                    new CarbonRecord();
+
+
+                record.UserId = userId;
+
+
+                record.Date =
+                    DateTime.Now;
+
+
+
+                switch (carbonactivity.ActivityType)
                 {
-                    carbonactivity.Date = DateTime.Now;
+
+                    case "Transport":
+
+                        record.TransportEmission =
+                            emission;
+
+                        break;
+
+
+                    case "Electricity":
+
+                        record.ElectricityEmission =
+                            emission;
+
+                        break;
+
+
+                    case "Food":
+
+                        record.FoodEmission =
+                            emission;
+
+                        break;
+
+
+                    case "Waste":
+
+                        break;
+
                 }
 
-                //  SAVE TO DB
-                _context.Add(carbonactivity);
+
+
+                record.TotalEmission =
+                    record.TransportEmission +
+                    record.ElectricityEmission +
+                    record.FoodEmission +
+                    emission;
+
+
+
+                _context.CarbonRecords.Add(record);
+
+
+
                 await _context.SaveChangesAsync();
 
+
+
                 return RedirectToAction(nameof(Index));
+
             }
 
+
             return View(carbonactivity);
+
         }
 
-        // GET: Edit
-        public async Task<IActionResult> Edit(int? id)
+
+
+
+
+
+
+        // Details
+        public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
                 return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var carbonactivity = await _context.CarbonActivities
-                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
+            var userId =
+                User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
 
-            if (carbonactivity == null)
+
+
+            var activity =
+                await _context.CarbonActivities
+                .FirstOrDefaultAsync(
+                x => x.Id == id &&
+                x.UserId == userId);
+
+
+
+            if (activity == null)
                 return NotFound();
 
-            return View(carbonactivity);
+
+
+            return View(activity);
+
         }
 
-        // POST: Edit
+
+
+
+
+
+
+        // Edit
+        public async Task<IActionResult> Edit(int? id)
+        {
+
+            if (id == null)
+                return NotFound();
+
+
+            var userId =
+                User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+
+
+            var activity =
+                await _context.CarbonActivities
+                .FirstOrDefaultAsync(
+                x => x.Id == id &&
+                x.UserId == userId);
+
+
+
+            if (activity == null)
+                return NotFound();
+
+
+
+            return View(activity);
+
+        }
+
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CarbonActivity carbonactivity)
+        public async Task<IActionResult> Edit(
+            int id,
+            CarbonActivity activity)
         {
-            if (id != carbonactivity.Id)
+
+
+            if (id != activity.Id)
                 return NotFound();
+
+
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                    //  ENSURE USER OWNERSHIP
-                    carbonactivity.UserId = userId;
+                var userId =
+                    User.FindFirstValue(
+                    ClaimTypes.NameIdentifier);
 
-                    //  RECALCULATE EMISSION
-                    carbonactivity.CarbonEmission =
-                        CarbonCalculator.Calculate(
-                            carbonactivity.ActivityType,
-                            carbonactivity.Amount,
-                            carbonactivity.Unit
-                        );
 
-                    _context.Update(carbonactivity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarbonActivityExists(carbonactivity.Id))
-                        return NotFound();
-                    else
-                        throw;
-                }
+
+                activity.UserId =
+                    userId;
+
+
+
+                activity.CarbonEmission =
+                    CarbonCalculator.Calculate(
+                    activity.ActivityType,
+                    activity.Amount,
+                    activity.Unit);
+
+
+
+                _context.Update(activity);
+
+
+                await _context.SaveChangesAsync();
+
 
                 return RedirectToAction(nameof(Index));
+
             }
 
-            return View(carbonactivity);
+
+
+            return View(activity);
+
         }
 
-        // GET: Delete
+
+
+
+
+
+
+        // Delete
+
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null)
                 return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var carbonactivity = await _context.CarbonActivities
-                .FirstOrDefaultAsync(m => m.Id == id && m.UserId == userId);
 
-            if (carbonactivity == null)
+            var userId =
+                User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+
+
+            var activity =
+                await _context.CarbonActivities
+                .FirstOrDefaultAsync(
+                x => x.Id == id &&
+                x.UserId == userId);
+
+
+
+            if (activity == null)
                 return NotFound();
 
-            return View(carbonactivity);
+
+
+            return View(activity);
+
         }
 
-        // POST: Delete
+
+
+
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(
+            int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var carbonactivity = await _context.CarbonActivities
-                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
+            var userId =
+                User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
 
-            if (carbonactivity != null)
+
+
+            var activity =
+                await _context.CarbonActivities
+                .FirstOrDefaultAsync(
+                x => x.Id == id &&
+                x.UserId == userId);
+
+
+
+            if (activity != null)
             {
-                _context.CarbonActivities.Remove(carbonactivity);
+
+                _context.CarbonActivities.Remove(activity);
+
                 await _context.SaveChangesAsync();
+
             }
 
+
+
             return RedirectToAction(nameof(Index));
+
         }
 
-        // CHECK EXISTS (USER SAFE)
-        private bool CarbonActivityExists(int id)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            return _context.CarbonActivities
-                .Any(e => e.Id == id && e.UserId == userId);
-        }
     }
 }
