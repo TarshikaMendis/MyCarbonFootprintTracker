@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using CarbonFootprintTracker.Models;
@@ -41,32 +40,47 @@ namespace CarbonFootprintTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CarbonActivity carbonactivity)
         {
-            // Remove validation for fields we don't want to validate from form
-            ModelState.Remove("CarbonEmission");
-            ModelState.Remove("UserId");
+            // Get the current user ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(userId))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
 
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return RedirectToPage("/Account/Login", new { area = "Identity" });
-                }
+            // Manual validation
+            if (string.IsNullOrEmpty(carbonactivity.ActivityType))
+            {
+                ModelState.AddModelError("ActivityType", "Activity Type is required");
+                return View(carbonactivity);
+            }
 
-                // connect user
-                carbonactivity.UserId = userId;
+            if (carbonactivity.Amount <= 0)
+            {
+                ModelState.AddModelError("Amount", "Amount must be greater than 0");
+                return View(carbonactivity);
+            }
 
-                // calculate emission
+            if (string.IsNullOrEmpty(carbonactivity.Unit))
+            {
+                ModelState.AddModelError("Unit", "Unit is required");
+                return View(carbonactivity);
+            }
+
+            try
+            {
+                // Calculate emission
                 double emission = CarbonCalculator.Calculate(
                     carbonactivity.ActivityType,
                     carbonactivity.Amount,
                     carbonactivity.Unit);
 
+                // Set values
+                carbonactivity.UserId = userId;
                 carbonactivity.CarbonEmission = emission;
                 carbonactivity.Date = DateTime.Now;
 
-                // save activity
+                // Save activity
                 _context.CarbonActivities.Add(carbonactivity);
                 await _context.SaveChangesAsync();
 
@@ -76,8 +90,11 @@ namespace CarbonFootprintTracker.Controllers
                 TempData["Success"] = $"Activity added! Carbon emission: {emission} kg CO₂";
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(carbonactivity);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error saving activity: {ex.Message}");
+                return View(carbonactivity);
+            }
         }
 
         private async Task UpdateCarbonRecord(string userId, string activityType, double emission)
@@ -168,13 +185,34 @@ namespace CarbonFootprintTracker.Controllers
             if (id != activity.Id)
                 return NotFound();
 
-            // Remove validation for fields we set manually
-            ModelState.Remove("CarbonEmission");
-            ModelState.Remove("UserId");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(userId))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            // Manual validation
+            if (string.IsNullOrEmpty(activity.ActivityType))
+            {
+                ModelState.AddModelError("ActivityType", "Activity Type is required");
+                return View(activity);
+            }
+
+            if (activity.Amount <= 0)
+            {
+                ModelState.AddModelError("Amount", "Amount must be greater than 0");
+                return View(activity);
+            }
+
+            if (string.IsNullOrEmpty(activity.Unit))
+            {
+                ModelState.AddModelError("Unit", "Unit is required");
+                return View(activity);
+            }
+
+            try
+            {
                 activity.UserId = userId;
 
                 activity.CarbonEmission = CarbonCalculator.Calculate(
@@ -191,8 +229,11 @@ namespace CarbonFootprintTracker.Controllers
                 TempData["Success"] = "Activity updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(activity);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error updating activity: {ex.Message}");
+                return View(activity);
+            }
         }
 
         private async Task RecalculateUserCarbonRecord(string userId)
