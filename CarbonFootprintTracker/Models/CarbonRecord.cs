@@ -15,6 +15,8 @@ namespace CarbonFootprintTracker.Models
 
         public double FoodEmission { get; set; }
 
+        public double WasteEmission { get; set; }
+
         public double TotalEmission { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;

@@ -1,53 +1,42 @@
 ﻿namespace CarbonFootprintTracker.Models
 {
-    public class CarbonCalculator
+    public static class CarbonCalculator
     {
-        public static double Calculate(
-            string activityType,
-            double amount,
-            string unit)
+        public static double Calculate(string activityType, double amount, string unit)
         {
-            double emission = 0;
-
+            // Emission factors (kg CO2 per unit)
             switch (activityType)
             {
                 case "Transport":
-
-                    if (unit == "km")
-                    {
-                        emission = amount * 0.21;
-                    }
-                    else if (unit == "mile")
-                    {
-                        emission = amount * 0.13;
-                    }
-
+                    if (unit.ToLower() == "km")
+                        return Math.Round(amount * 0.21, 2);
+                    else if (unit.ToLower() == "mile")
+                        return Math.Round(amount * 0.34, 2);
+                    else if (unit.ToLower() == "minute")
+                        return Math.Round(amount * 0.05, 2);
                     break;
-
 
                 case "Electricity":
-
-                    emission = amount * 0.85;
-
+                    if (unit.ToLower() == "kwh" || unit.ToLower() == "unit")
+                        return Math.Round(amount * 0.45, 2);
                     break;
-
 
                 case "Food":
-
-                    emission = amount * 2.5;
-
+                    if (unit.ToLower() == "meal")
+                        return Math.Round(amount * 2.5, 2);
+                    else if (unit.ToLower() == "kg")
+                        return Math.Round(amount * 5.0, 2);
                     break;
 
-
                 case "Waste":
-
-                    emission = amount * 1.8;
-
+                    if (unit.ToLower() == "kg")
+                        return Math.Round(amount * 1.2, 2);
+                    else if (unit.ToLower() == "bag")
+                        return Math.Round(amount * 3.0, 2);
                     break;
             }
 
-
-            return emission;
+            return 0;
         }
     }
 }
