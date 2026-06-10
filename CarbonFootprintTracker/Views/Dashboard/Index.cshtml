@@ -1,0 +1,139 @@
+﻿@model CarbonFootprintTracker.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <h2 class="mb-0">🌍 Welcome, @Model.UserName!</h2>
+                    <p class="mb-0">Here's your carbon footprint summary</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards Row -->
+    <div class="row mb-4">
+        <!-- Total Emission Card -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total CO₂ Emission</h5>
+                    <h1 class="display-4 fw-bold text-danger">@Model.TotalEmission</h1>
+                    <p class="card-text">kg CO₂</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- This Month Card -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">This Month</h5>
+                    <h1 class="display-4 fw-bold text-warning">@Model.ThisMonthEmission</h1>
+                    <p class="card-text">kg CO₂</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Activities Card -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Activities</h5>
+                    <h1 class="display-4 fw-bold text-success">@Model.TotalActivities</h1>
+                    <p class="card-text">Records Tracked</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Highest Source Card -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Highest Emission</h5>
+                    <h1 class="display-6 fw-bold text-info">@Model.HighestEmissionSource</h1>
+                    <p class="card-text">@Model.HighestEmissionValue kg CO₂</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Breakdown Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">📊 Emissions by Category</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <div class="p-3 border rounded">
+                                <h5>🚗 Transport</h5>
+                                <h3 class="text-primary">@Model.TransportEmission</h3>
+                                <p>kg CO₂</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="p-3 border rounded">
+                                <h5>⚡ Electricity</h5>
+                                <h3 class="text-warning">@Model.ElectricityEmission</h3>
+                                <p>kg CO₂</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="p-3 border rounded">
+                                <h5>🍽️ Food</h5>
+                                <h3 class="text-success">@Model.FoodEmission</h3>
+                                <p>kg CO₂</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="p-3 border rounded">
+                                <h5>🗑️ Waste</h5>
+                                <h3 class="text-danger">@Model.WasteEmission</h3>
+                                <p>kg CO₂</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Recommendation Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-success">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">🤖 AI Smart Recommendation</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="display-1 me-3">@Model.RecommendationIcon</div>
+                        <div>
+                            <p class="lead mb-0">@Model.AiRecommendation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <a asp-controller="CarbonActivities" asp-action="Create" class="btn btn-success btn-lg me-2">
+                ➕ Add New Activity
+            </a>
+            <a asp-controller="CarbonActivities" asp-action="Index" class="btn btn-primary btn-lg">
+                📋 View All Activities
+            </a>
+        </div>
+    </div>
+</div>
