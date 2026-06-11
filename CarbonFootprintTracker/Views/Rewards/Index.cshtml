@@ -1,0 +1,151 @@
+﻿@using CarbonFootprintTracker.Controllers
+@model RewardsViewModel
+
+@{
+    ViewData["Title"] = "My Rewards";
+}
+
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-warning text-dark shadow">
+                <div class="card-body text-center">
+                    <h1 class="display-4">🏆 My Rewards</h1>
+                    <p class="lead">Track your achievements and earn badges!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Points Summary -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow text-center border-success">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Points</h5>
+                    <h1 class="display-2 fw-bold text-success">@Model.TotalPoints</h1>
+                    <p class="card-text">points earned</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card shadow text-center border-info">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Badges Earned</h5>
+                    <h1 class="display-2 fw-bold text-info">@Model.EarnedRewards.Count</h1>
+                    <p class="card-text">out of @Model.AvailableRewards.Count rewards</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Next Milestone -->
+    @if (!string.IsNullOrEmpty(Model.NextMilestone))
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info text-center shadow">
+                    <h4 class="mb-0">@Model.NextMilestone</h4>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Earned Badges Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">✅ Earned Badges</h3>
+                </div>
+                <div class="card-body">
+                    @if (Model.EarnedRewards.Any())
+                    {
+                        <div class="row">
+                            @foreach (var earned in Model.EarnedRewards)
+                            {
+                                <div class="col-md-4 col-lg-3 mb-3">
+                                    <div class="card text-center border-success h-100">
+                                        <div class="card-body">
+                                            <div class="display-1">@earned.Reward.BadgeIcon</div>
+                                            <h5 class="card-title mt-2">@earned.Reward.Name</h5>
+                                            <p class="card-text small">@earned.Reward.Description</p>
+                                            <small class="text-muted">Earned: @earned.EarnedAt.ToString("MMM dd, yyyy")</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning text-center">
+                            <h5>No badges earned yet!</h5>
+                            <p>Start adding activities to earn your first badge!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Badges Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="mb-0">🔒 Available Badges to Unlock</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var reward in Model.AvailableRewards)
+                        {
+                            var isEarned = Model.EarnedRewards.Any(er => er.RewardId == reward.Id);
+                            if (!isEarned)
+                            {
+                                <div class="col-md-4 col-lg-3 mb-3">
+                                    <div class="card text-center border-secondary h-100 opacity-75">
+                                        <div class="card-body">
+                                            <div class="display-1 opacity-50">🔒</div>
+                                            <h5 class="card-title">@reward.BadgeIcon @reward.Name</h5>
+                                            <p class="card-text small">@reward.Description</p>
+                                            <div class="mt-2">
+                                                @if (reward.RequiredPoints > 0)
+                                                {
+                                                    <span class="badge bg-info">@reward.RequiredPoints points</span>
+                                                }
+                                                @if (reward.RequiredActivities > 0)
+                                                {
+                                                    <span class="badge bg-warning">@reward.RequiredActivities activities</span>
+                                                }
+                                                @if (reward.RequiredEmissionReduction > 0)
+                                                {
+                                                    <span class="badge bg-success">
+                                                        &lt; @reward.RequiredEmissionReduction kg CO₂
+                                                    </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <a asp-controller="CarbonActivities" asp-action="Create" class="btn btn-success btn-lg me-2">
+                ➕ Add Activity to Earn Points
+            </a>
+            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary btn-lg">
+                📊 Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
