@@ -54,4 +54,11 @@ app.MapControllerRoute(
 // Identity Razor Pages
 app.MapRazorPages();
 
+// Seed initial rewards data
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    DbInitializer.Initialize(context);
+}
+
 app.Run();

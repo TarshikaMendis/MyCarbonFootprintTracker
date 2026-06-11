@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using CarbonFootprintTracker.Models;
 using CarbonFootprintTracker.Data;
+using CarbonFootprintTracker.Services;
 using System.Security.Claims;
 
 namespace CarbonFootprintTracker.Controllers
@@ -87,7 +88,16 @@ namespace CarbonFootprintTracker.Controllers
                 // Update or create carbon record
                 await UpdateCarbonRecord(userId, carbonactivity.ActivityType, emission);
 
-                TempData["Success"] = $"Activity added! Carbon emission: {emission} kg CO₂";
+                // Calculate points earned for this activity
+                int pointsEarned = PointsCalculator.CalculatePoints(
+                    carbonactivity.ActivityType,
+                    carbonactivity.Amount,
+                    emission);
+
+                // Check and award rewards based on new total points
+                await CheckAndAwardRewards(userId);
+
+                TempData["Success"] = $"Activity added! Carbon emission: {emission} kg CO₂ | +{pointsEarned} points earned!";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -142,6 +152,92 @@ namespace CarbonFootprintTracker.Controllers
                                    record.FoodEmission +
                                    record.WasteEmission;
             record.Date = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task CheckAndAwardRewards(string userId)
+        {
+            // Get user's total points
+            var activities = await _context.CarbonActivities
+                .Where(a => a.UserId == userId)
+                .ToListAsync();
+
+            int totalPoints = PointsCalculator.CalculateTotalUserPoints(activities);
+
+            // Calculate category totals
+            double transportTotal = activities.Where(a => a.ActivityType == "Transport").Sum(a => a.CarbonEmission);
+            double electricityTotal = activities.Where(a => a.ActivityType == "Electricity").Sum(a => a.CarbonEmission);
+            double foodTotal = activities.Where(a => a.ActivityType == "Food").Sum(a => a.CarbonEmission);
+            double wasteTotal = activities.Where(a => a.ActivityType == "Waste").Sum(a => a.CarbonEmission);
+            int activityCount = activities.Count;
+
+            // Get all available rewards
+            var allRewards = await _context.Rewards.Where(r => r.IsActive).ToListAsync();
+
+            // Get already earned rewards
+            var earnedRewards = await _context.UserRewards
+                .Where(ur => ur.UserId == userId)
+                .Select(ur => ur.RewardId)
+                .ToListAsync();
+
+            foreach (var reward in allRewards)
+            {
+                // Skip if already earned
+                if (earnedRewards.Contains(reward.Id))
+                    continue;
+
+                bool shouldAward = false;
+
+                // Check conditions based on reward category
+                switch (reward.Category)
+                {
+                    case "General":
+                        if (reward.RequiredPoints > 0 && totalPoints >= reward.RequiredPoints)
+                            shouldAward = true;
+                        else if (reward.RequiredActivities > 0 && activityCount >= reward.RequiredActivities)
+                            shouldAward = true;
+                        break;
+
+                    case "Transport":
+                        if (reward.RequiredEmissionReduction > 0 && transportTotal <= reward.RequiredEmissionReduction)
+                            shouldAward = true;
+                        else if (reward.RequiredActivities > 0 && activityCount >= reward.RequiredActivities)
+                            shouldAward = true;
+                        break;
+
+                    case "Electricity":
+                        if (reward.RequiredEmissionReduction > 0 && electricityTotal <= reward.RequiredEmissionReduction)
+                            shouldAward = true;
+                        break;
+
+                    case "Food":
+                        if (reward.RequiredEmissionReduction > 0 && foodTotal <= reward.RequiredEmissionReduction)
+                            shouldAward = true;
+                        break;
+
+                    case "Waste":
+                        if (reward.RequiredEmissionReduction > 0 && wasteTotal <= reward.RequiredEmissionReduction)
+                            shouldAward = true;
+                        break;
+                }
+
+                if (shouldAward)
+                {
+                    var userReward = new UserReward
+                    {
+                        UserId = userId,
+                        RewardId = reward.Id,
+                        PointsEarned = reward.RequiredPoints > 0 ? reward.RequiredPoints : totalPoints,
+                        EarnedAt = DateTime.Now,
+                        IsViewed = false
+                    };
+                    _context.UserRewards.Add(userReward);
+
+                    // Add a special temp message for new rewards
+                    TempData["NewReward"] = $"🎉 Congratulations! You earned the '{reward.Name}' badge! 🎉";
+                }
+            }
 
             await _context.SaveChangesAsync();
         }
@@ -226,6 +322,9 @@ namespace CarbonFootprintTracker.Controllers
                 // Update carbon record after edit
                 await RecalculateUserCarbonRecord(userId);
 
+                // Check and award rewards after edit
+                await CheckAndAwardRewards(userId);
+
                 TempData["Success"] = "Activity updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
@@ -296,6 +395,9 @@ namespace CarbonFootprintTracker.Controllers
 
                 // Recalculate carbon record after deletion
                 await RecalculateUserCarbonRecord(userId);
+
+                // Check and award rewards after deletion
+                await CheckAndAwardRewards(userId);
 
                 TempData["Success"] = "Activity deleted successfully!";
             }
