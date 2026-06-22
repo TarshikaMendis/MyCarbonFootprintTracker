@@ -28,5 +28,16 @@
 
         // Activity Count
         public int TotalActivities { get; set; }
+
+        //  Chart Data
+        public List<ChartData> DailyEmissions { get; set; }
+        public List<ChartData> MonthlyEmissions { get; set; }
+    }
+
+    //  Chart Data Class
+    public class ChartData
+    {
+        public string Label { get; set; }
+        public double Value { get; set; }
     }
 }
