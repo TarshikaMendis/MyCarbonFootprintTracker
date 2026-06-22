@@ -36,9 +36,10 @@ namespace CarbonFootprintTracker.Controllers
             var carbonRecord = await _context.CarbonRecords
                 .FirstOrDefaultAsync(r => r.UserId == userId);
 
-            // Get all activities for this user
+            // Get all activities for this user (ordered by date for charts)
             var activities = await _context.CarbonActivities
                 .Where(a => a.UserId == userId)
+                .OrderBy(a => a.Date)
                 .ToListAsync();
 
             // Get this month's activities
@@ -75,6 +76,10 @@ namespace CarbonFootprintTracker.Controllers
             var recommendation = GenerateRecommendation(
                 transportTotal, electricityTotal, foodTotal, wasteTotal, totalEmission, highestSourceName);
 
+            // Prepare Chart Data
+            var dailyEmissions = GetDailyEmissions(activities);
+            var monthlyEmissions = GetMonthlyEmissions(activities);
+
             // Create ViewModel
             var viewModel = new DashboardViewModel
             {
@@ -90,10 +95,61 @@ namespace CarbonFootprintTracker.Controllers
                 HighestEmissionValue = highestSourceValue,
                 AiRecommendation = recommendation.Message,
                 RecommendationIcon = recommendation.Icon,
-                TotalActivities = activities.Count
+                TotalActivities = activities.Count,
+                DailyEmissions = dailyEmissions,
+                MonthlyEmissions = monthlyEmissions
             };
 
             return View(viewModel);
+        }
+
+        // NEW: Get Daily Emissions for Last 7 Days
+        private List<ChartData> GetDailyEmissions(List<CarbonActivity> activities)
+        {
+            var result = new List<ChartData>();
+
+            // Get last 7 days
+            for (int i = 6; i >= 0; i--)
+            {
+                var date = DateTime.Now.Date.AddDays(-i);
+                var dailyTotal = activities
+                    .Where(a => a.Date.Date == date)
+                    .Sum(a => a.CarbonEmission);
+
+                result.Add(new ChartData
+                {
+                    Label = date.ToString("MMM dd"),
+                    Value = Math.Round(dailyTotal, 2)
+                });
+            }
+
+            return result;
+        }
+
+        //  Get Monthly Emissions for Last 6 Months
+        private List<ChartData> GetMonthlyEmissions(List<CarbonActivity> activities)
+        {
+            var result = new List<ChartData>();
+
+            // Get last 6 months
+            for (int i = 5; i >= 0; i--)
+            {
+                var date = DateTime.Now.Date.AddMonths(-i);
+                var startOfMonth = new DateTime(date.Year, date.Month, 1);
+                var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+                var monthlyTotal = activities
+                    .Where(a => a.Date >= startOfMonth && a.Date <= endOfMonth)
+                    .Sum(a => a.CarbonEmission);
+
+                result.Add(new ChartData
+                {
+                    Label = startOfMonth.ToString("MMM yyyy"),
+                    Value = Math.Round(monthlyTotal, 2)
+                });
+            }
+
+            return result;
         }
 
         private (string Message, string Icon) GenerateRecommendation(
