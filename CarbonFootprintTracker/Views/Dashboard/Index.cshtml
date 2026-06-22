@@ -63,11 +63,52 @@
         </div>
     </div>
 
-    <!-- Category Breakdown Row -->
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <!-- Line Chart - Daily Emissions -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📈 Daily Emissions (Last 7 Days)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="dailyChart" style="height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- pie Chart - Category Breakdown -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">🍩 Category Breakdown</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" style="height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Chart Row -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow">
                 <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📊 Monthly Emissions (Last 6 Months)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" style="height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Breakdown Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
                     <h4 class="mb-0">📊 Emissions by Category</h4>
                 </div>
                 <div class="card-body">
@@ -134,6 +175,125 @@
             <a asp-controller="CarbonActivities" asp-action="Index" class="btn btn-primary btn-lg">
                 📋 View All Activities
             </a>
+            <a asp-controller="Rewards" asp-action="Index" class="btn btn-warning btn-lg">
+                🏆 My Rewards
+            </a>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Pass data from Model to JavaScript
+        var dailyLabels = @Html.Raw(Json.Serialize(Model.DailyEmissions.Select(d => d.Label)));
+        var dailyValues = @Html.Raw(Json.Serialize(Model.DailyEmissions.Select(d => d.Value)));
+
+        var monthlyLabels = @Html.Raw(Json.Serialize(Model.MonthlyEmissions.Select(m => m.Label)));
+        var monthlyValues = @Html.Raw(Json.Serialize(Model.MonthlyEmissions.Select(m => m.Value)));
+
+        var categoryLabels = ['Transport', 'Electricity', 'Food', 'Waste'];
+        var categoryValues = [
+            @Model.TransportEmission,
+            @Model.ElectricityEmission,
+            @Model.FoodEmission,
+            @Model.WasteEmission
+        ];
+        var categoryColors = ['#0d6efd', '#ffc107', '#198754', '#dc3545'];
+
+        // Chart 1: Daily Emissions (Line Chart)
+        var ctx1 = document.getElementById('dailyChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: dailyLabels,
+                datasets: [{
+                    label: 'CO₂ Emissions (kg)',
+                    data: dailyValues,
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                    borderColor: 'rgba(13, 110, 253, 1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'kg CO₂'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Category Breakdown (Doughnut Chart)
+        var ctx2 = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryValues,
+                    backgroundColor: categoryColors,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Monthly Emissions (Bar Chart)
+        var ctx3 = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: monthlyLabels,
+                datasets: [{
+                    label: 'Monthly CO₂ Emissions (kg)',
+                    data: monthlyValues,
+                    backgroundColor: 'rgba(40, 167, 69, 0.6)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'kg CO₂'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
