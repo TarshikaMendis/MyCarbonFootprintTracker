@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using CarbonFootprintTracker.Data;
 
 namespace CarbonFootprintTracker.Models
 {
@@ -20,5 +22,9 @@ namespace CarbonFootprintTracker.Models
         public DateTime Date { get; set; } = DateTime.Now;
 
         public string UserId { get; set; }
+
+        // Navigation property - links to the user who created this activity
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
     }
 }

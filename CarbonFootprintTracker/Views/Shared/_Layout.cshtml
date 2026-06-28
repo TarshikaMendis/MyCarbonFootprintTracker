@@ -25,6 +25,12 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (User.HasClaim("IsAdmin", "true") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">🔐 Admin Panel</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
                             </li>
