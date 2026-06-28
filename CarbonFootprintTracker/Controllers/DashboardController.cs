@@ -32,6 +32,12 @@ namespace CarbonFootprintTracker.Controllers
                 return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
+            // ✅ NEW: Check if user is admin - redirect to Admin Dashboard
+            if (user != null && user.IsAdmin)
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
+
             // Get user's carbon record
             var carbonRecord = await _context.CarbonRecords
                 .FirstOrDefaultAsync(r => r.UserId == userId);
@@ -103,7 +109,7 @@ namespace CarbonFootprintTracker.Controllers
             return View(viewModel);
         }
 
-        // NEW: Get Daily Emissions for Last 7 Days
+        // Get Daily Emissions for Last 7 Days
         private List<ChartData> GetDailyEmissions(List<CarbonActivity> activities)
         {
             var result = new List<ChartData>();
@@ -126,7 +132,7 @@ namespace CarbonFootprintTracker.Controllers
             return result;
         }
 
-        //  Get Monthly Emissions for Last 6 Months
+        // Get Monthly Emissions for Last 6 Months
         private List<ChartData> GetMonthlyEmissions(List<CarbonActivity> activities)
         {
             var result = new List<ChartData>();
