@@ -1,4 +1,5 @@
 ﻿using CarbonFootprintTracker.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarbonFootprintTracker.Data
 {
@@ -95,6 +96,32 @@ namespace CarbonFootprintTracker.Data
 
             context.Rewards.AddRange(rewards);
             context.SaveChanges();
+        }
+
+        //  Seed Admin User
+        public static async Task SeedAdminUser(UserManager<ApplicationUser> userManager)
+        {
+            // Check if admin already exists
+            var adminUser = await userManager.FindByEmailAsync("admin@123");
+
+            if (adminUser == null)
+            {
+                var admin = new ApplicationUser
+                {
+                    UserName = "admin@123",
+                    Email = "admin@123",
+                    EmailConfirmed = true,
+                    CreatedAt = DateTime.Now,
+                    IsAdmin = true  // Set as admin
+                };
+
+                var result = await userManager.CreateAsync(admin, "adminpass");
+
+                if (result.Succeeded)
+                {
+                    // Admin created successfully
+                }
+            }
         }
     }
 }

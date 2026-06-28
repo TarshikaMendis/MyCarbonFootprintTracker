@@ -61,4 +61,11 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Initialize(context);
 }
 
+// Seed Admin User - Use GetAwaiter().GetResult() for sync context
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    DbInitializer.SeedAdminUser(userManager).GetAwaiter().GetResult();
+}
+
 app.Run();
