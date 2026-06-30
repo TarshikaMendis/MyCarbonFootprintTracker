@@ -5,147 +5,492 @@
     ViewData["Title"] = "My Rewards";
 }
 
-<div class="container mt-4">
-    <!-- Header Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-warning text-dark shadow">
-                <div class="card-body text-center">
-                    <h1 class="display-4">🏆 My Rewards</h1>
-                    <p class="lead">Track your achievements and earn badges!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Points Summary -->
-    <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-            <div class="card shadow text-center border-success">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Total Points</h5>
-                    <h1 class="display-2 fw-bold text-success">@Model.TotalPoints</h1>
-                    <p class="card-text">points earned</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="card shadow text-center border-info">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Badges Earned</h5>
-                    <h1 class="display-2 fw-bold text-info">@Model.EarnedRewards.Count</h1>
-                    <p class="card-text">out of @Model.AvailableRewards.Count rewards</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Next Milestone -->
-    @if (!string.IsNullOrEmpty(Model.NextMilestone))
-    {
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="alert alert-info text-center shadow">
-                    <h4 class="mb-0">@Model.NextMilestone</h4>
-                </div>
-            </div>
-        </div>
+<style>
+    /* 🌿 LeafMark Rewards Theme */
+    .rewards-container {
+        background: #F0F7F0;
+        padding: 1.5rem 0;
     }
 
-    <!-- Earned Badges Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h3 class="mb-0">✅ Earned Badges</h3>
-                </div>
-                <div class="card-body">
-                    @if (Model.EarnedRewards.Any())
-                    {
-                        <div class="row">
-                            @foreach (var earned in Model.EarnedRewards)
-                            {
-                                <div class="col-md-4 col-lg-3 mb-3">
-                                    <div class="card text-center border-success h-100">
-                                        <div class="card-body">
-                                            <div class="display-1">@earned.Reward.BadgeIcon</div>
-                                            <h5 class="card-title mt-2">@earned.Reward.Name</h5>
-                                            <p class="card-text small">@earned.Reward.Description</p>
-                                            <small class="text-muted">Earned: @earned.EarnedAt.ToString("MMM dd, yyyy")</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning text-center">
-                            <h5>No badges earned yet!</h5>
-                            <p>Start adding activities to earn your first badge!</p>
-                        </div>
-                    }
+    /* Header Card */
+    .header-card {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        border-radius: 20px;
+        padding: 2rem 2.5rem;
+        color: #FFFFFF;
+        box-shadow: 0 10px 40px rgba(27, 94, 32, 0.3);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+        .header-card::before {
+            content: '🏆';
+            position: absolute;
+            right: 30px;
+            top: -10px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(10deg);
+        }
+
+        .header-card h1 {
+            font-weight: 700;
+            font-size: 2.8rem;
+        }
+
+        .header-card .subtitle {
+            color: #C8E6C9;
+            font-size: 1.2rem;
+        }
+
+    /* Stat Cards */
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        height: 100%;
+        padding: 1.5rem;
+        text-align: center;
+        background: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card .stat-number {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 0;
+        }
+
+        .stat-card .stat-label {
+            color: #4A5568;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-footer {
+            font-size: 0.8rem;
+            color: #A5D6A7;
+            margin-top: 0.3rem;
+        }
+
+    .stat-card-green .stat-number {
+        color: #2E7D32;
+    }
+
+    .stat-card-gold .stat-number {
+        color: #F57F17;
+    }
+
+    /* Milestone Alert */
+    .milestone-alert {
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+        border-left: 5px solid #FFC107;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.2);
+        padding: 1.2rem;
+        text-align: center;
+    }
+
+        .milestone-alert h4 {
+            color: #E65100;
+            font-weight: 600;
+        }
+
+    /* Badge Cards */
+    .badge-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        height: 100%;
+        background: #FFFFFF;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .badge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        .badge-card .badge-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-card .badge-name {
+            font-weight: 700;
+            color: #1B5E20;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .badge-card .badge-desc {
+            color: #4A5568;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-card .badge-date {
+            color: #A5D6A7;
+            font-size: 0.75rem;
+        }
+
+    .badge-card-earned {
+        border: 2px solid #2E7D32;
+        background: linear-gradient(135deg, #FFFFFF 0%, #F0F7F0 100%);
+    }
+
+        .badge-card-earned::after {
+            content: '✅';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+    .badge-card-locked {
+        border: 2px solid #E8F5E9;
+        opacity: 0.7;
+    }
+
+        .badge-card-locked .badge-icon {
+            opacity: 0.4;
+        }
+
+        .badge-card-locked .lock-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+            opacity: 0.5;
+        }
+
+    /* Requirement Badges */
+    .req-badge {
+        padding: 0.2rem 0.7rem;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        display: inline-block;
+        margin: 0.1rem;
+    }
+
+    .req-badge-points {
+        background: #E3F2FD;
+        color: #0D47A1;
+    }
+
+    .req-badge-activities {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+
+    .req-badge-emission {
+        background: #E8F5E9;
+        color: #1B5E20;
+    }
+
+    /* Section Cards */
+    .section-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        background: #FFFFFF;
+        overflow: hidden;
+    }
+
+        .section-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .section-card .card-header {
+            border-radius: 16px 16px 0 0;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            border: none;
+            color: #FFFFFF;
+        }
+
+        .section-card .card-header-success {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        }
+
+        .section-card .card-header-dark {
+            background: linear-gradient(135deg, #1a2332 0%, #0d1b2a 100%);
+        }
+
+        .section-card .card-body {
+            padding: 1.5rem;
+        }
+
+    /* Action Buttons */
+    .action-btn {
+        border-radius: 50px;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            text-decoration: none;
+        }
+
+    .action-btn-success {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-success:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            color: #FFFFFF;
+        }
+
+    .action-btn-primary {
+        background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-primary:hover {
+            background: linear-gradient(135deg, #0D47A1 0%, #0A2E6E 100%);
+            color: #FFFFFF;
+        }
+
+    .action-btn-warning {
+        background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-warning:hover {
+            background: linear-gradient(135deg, #F57F17 0%, #E65100 100%);
+            color: #FFFFFF;
+        }
+
+    /* No Data */
+    .no-data {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #4A5568;
+    }
+
+        .no-data .no-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-data h5 {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .header-card h1 {
+            font-size: 2rem;
+        }
+
+        .header-card::before {
+            font-size: 5rem;
+            right: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+        }
+
+        .badge-card .badge-icon {
+            font-size: 3rem;
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+
+<div class="rewards-container">
+    <div class="container">
+        <!-- 🏆 Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="header-card">
+                    <div>
+                        <h1>🏆 My Rewards</h1>
+                        <p class="subtitle">🍃 Track your achievements and earn badges!</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Available Badges Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-secondary text-white">
-                    <h3 class="mb-0">🔒 Available Badges to Unlock</h3>
+        <!-- 📊 Points Summary -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="stat-card stat-card-green">
+                    <span class="stat-icon">⭐</span>
+                    <div class="stat-number">@Model.TotalPoints</div>
+                    <div class="stat-label">Total Points</div>
+                    <div class="stat-footer">points earned</div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach (var reward in Model.AvailableRewards)
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="stat-card stat-card-gold">
+                    <span class="stat-icon">🎖️</span>
+                    <div class="stat-number">@Model.EarnedRewards.Count</div>
+                    <div class="stat-label">Badges Earned</div>
+                    <div class="stat-footer">out of @Model.AvailableRewards.Count rewards</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🎯 Next Milestone -->
+        @if (!string.IsNullOrEmpty(Model.NextMilestone))
+        {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="milestone-alert">
+                        <h4 class="mb-0">@Model.NextMilestone</h4>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- ✅ Earned Badges Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="section-card">
+                    <div class="card-header card-header-success">
+                        <h3 class="mb-0">✅ Earned Badges</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.EarnedRewards.Any())
                         {
-                            var isEarned = Model.EarnedRewards.Any(er => er.RewardId == reward.Id);
-                            if (!isEarned)
-                            {
-                                <div class="col-md-4 col-lg-3 mb-3">
-                                    <div class="card text-center border-secondary h-100 opacity-75">
-                                        <div class="card-body">
-                                            <div class="display-1 opacity-50">🔒</div>
-                                            <h5 class="card-title">@reward.BadgeIcon @reward.Name</h5>
-                                            <p class="card-text small">@reward.Description</p>
-                                            <div class="mt-2">
-                                                @if (reward.RequiredPoints > 0)
-                                                {
-                                                    <span class="badge bg-info">@reward.RequiredPoints points</span>
-                                                }
-                                                @if (reward.RequiredActivities > 0)
-                                                {
-                                                    <span class="badge bg-warning">@reward.RequiredActivities activities</span>
-                                                }
-                                                @if (reward.RequiredEmissionReduction > 0)
-                                                {
-                                                    <span class="badge bg-success">
-                                                        &lt; @reward.RequiredEmissionReduction kg CO₂
-                                                    </span>
-                                                }
-                                            </div>
+                            <div class="row">
+                                @foreach (var earned in Model.EarnedRewards)
+                                {
+                                    <div class="col-md-4 col-lg-3 col-sm-6 mb-3">
+                                        <div class="badge-card badge-card-earned">
+                                            <span class="badge-icon">@earned.Reward.BadgeIcon</span>
+                                            <div class="badge-name">@earned.Reward.Name</div>
+                                            <div class="badge-desc">@earned.Reward.Description</div>
+                                            <div class="badge-date">🏅 Earned: @earned.EarnedAt.ToString("MMM dd, yyyy")</div>
                                         </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="no-data">
+                                <span class="no-icon">🎯</span>
+                                <h5>No badges earned yet!</h5>
+                                <p>Start adding activities to earn your first badge!</p>
+                            </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <a asp-controller="CarbonActivities" asp-action="Create" class="btn btn-success btn-lg me-2">
-                ➕ Add Activity to Earn Points
-            </a>
-            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary btn-lg">
-                📊 Back to Dashboard
-            </a>
+        <!-- 🔒 Available Badges Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="section-card">
+                    <div class="card-header card-header-dark">
+                        <h3 class="mb-0">🔒 Available Badges to Unlock</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @{
+                                bool hasAvailable = false;
+                            }
+                            @foreach (var reward in Model.AvailableRewards)
+                            {
+                                var isEarned = Model.EarnedRewards.Any(er => er.RewardId == reward.Id);
+                                if (!isEarned)
+                                {
+                                    hasAvailable = true;
+                                    <div class="col-md-4 col-lg-3 col-sm-6 mb-3">
+                                        <div class="badge-card badge-card-locked">
+                                            <span class="lock-icon">🔒</span>
+                                            <span class="badge-icon" style="font-size: 2.5rem;">@reward.BadgeIcon</span>
+                                            <div class="badge-name">@reward.Name</div>
+                                            <div class="badge-desc">@reward.Description</div>
+                                            <div class="mt-2">
+                                                @if (reward.RequiredPoints > 0)
+                                                {
+                                                    <span class="req-badge req-badge-points">⭐ @reward.RequiredPoints pts</span>
+                                                }
+                                                @if (reward.RequiredActivities > 0)
+                                                {
+                                                    <span class="req-badge req-badge-activities">📋 @reward.RequiredActivities acts</span>
+                                                }
+                                                @if (reward.RequiredEmissionReduction > 0)
+                                                {
+                                                    <span class="req-badge req-badge-emission">🌿 &lt; @reward.RequiredEmissionReduction kg</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (!hasAvailable)
+                            {
+                                <div class="col-12">
+                                    <div class="no-data">
+                                        <span class="no-icon">🏆</span>
+                                        <h5>All Badges Unlocked!</h5>
+                                        <p>Amazing work! You've earned every badge available. Keep up the great work!</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🚀 Action Buttons -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <a asp-controller="CarbonActivities" asp-action="Create" class="action-btn action-btn-success me-2 mb-2">
+                    ➕ Add Activity to Earn Points
+                </a>
+                <a asp-controller="Dashboard" asp-action="Index" class="action-btn action-btn-primary me-2 mb-2">
+                    📊 Back to Dashboard
+                </a>
+                <a asp-controller="Reports" asp-action="Index" class="action-btn action-btn-warning mb-2">
+                    📈 View Reports
+                </a>
+            </div>
         </div>
     </div>
 </div>
