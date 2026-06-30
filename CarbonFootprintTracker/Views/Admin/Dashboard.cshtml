@@ -4,181 +4,400 @@
     Layout = "_AdminLayout";
 }
 
-<div class="container-fluid">
-    <!-- Welcome Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-primary text-white shadow">
-                <div class="card-body">
-                    <h2 class="mb-0">👋 Welcome, Admin!</h2>
-                    <p class="mb-0">Here's an overview of the entire platform</p>
+<style>
+    /* 🌿 LeafMark Admin Dashboard Theme */
+    .admin-dashboard {
+        background: #F0F7F0;
+        padding: 0.5rem 0;
+    }
+
+    /* Welcome Card */
+    .welcome-card {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        border-radius: 20px;
+        padding: 2rem 2.5rem;
+        color: #FFFFFF;
+        box-shadow: 0 10px 40px rgba(27, 94, 32, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .welcome-card::before {
+            content: '🍃';
+            position: absolute;
+            right: 30px;
+            top: -10px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(20deg);
+        }
+
+        .welcome-card h2 {
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .welcome-card .subtitle {
+            color: #C8E6C9;
+            font-size: 1.1rem;
+        }
+
+    /* Stats Cards */
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        color: #FFFFFF;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .stat-card .stat-footer {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+        }
+
+    .stat-card-green {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+    }
+
+    .stat-card-blue {
+        background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+    }
+
+    .stat-card-orange {
+        background: linear-gradient(135deg, #E65100 0%, #BF360C 100%);
+    }
+
+    .stat-card-purple {
+        background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+    }
+
+    .stat-card-gold {
+        background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+        color: #1B5E20;
+    }
+
+    /* Section Cards */
+    .section-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        background: #FFFFFF;
+        height: 100%;
+    }
+
+        .section-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .section-card .card-header {
+            border-radius: 16px 16px 0 0;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            border: none;
+            color: #FFFFFF;
+        }
+
+        .section-card .card-header-green {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        }
+
+        .section-card .card-header-blue {
+            background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+        }
+
+        .section-card .card-header-dark {
+            background: #1a2332;
+        }
+
+    /* Category Cards */
+    .category-card {
+        border-radius: 14px;
+        padding: 1.2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #FFFFFF;
+        border: 2px solid #E8F5E9;
+        height: 100%;
+    }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.12);
+            border-color: #2E7D32;
+        }
+
+        .category-card .cat-icon {
+            font-size: 2.2rem;
+            display: block;
+        }
+
+        .category-card .cat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0.3rem 0 0;
+        }
+
+        .category-card .cat-label {
+            color: #4A5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+    /* Top Users List */
+    .top-user-item {
+        border: none;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        padding: 0.8rem 1.2rem;
+        transition: all 0.3s ease;
+        background: #F8FFF8;
+        border-left: 4px solid #2E7D32;
+    }
+
+        .top-user-item:hover {
+            background: #E8F5E9;
+            transform: translateX(5px);
+        }
+
+        .top-user-item .user-rank {
+            font-weight: 700;
+            color: #2E7D32;
+            margin-right: 0.5rem;
+        }
+
+        .top-user-item .user-points {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: #FFFFFF;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .welcome-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .welcome-card::before {
+            font-size: 5rem;
+            right: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+        }
+
+        .category-card .cat-value {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+
+<div class="admin-dashboard">
+    <div class="container-fluid">
+        <!-- 🌿 Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="welcome-card">
+                    <div>
+                        <h2>👋 Welcome, Admin!</h2>
+                        <p class="subtitle">🍃 Here's an overview of the entire LeafMark platform</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <!-- Total Users -->
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow text-center border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                <div class="card-body">
-                    <h5 class="card-title">Total Users</h5>
-                    <h1 class="display-4 fw-bold">@Model.TotalUsers</h1>
-                    <p>+@Model.NewUsersThisMonth this month</p>
+        <!-- 📊 Statistics Cards -->
+        <div class="row mb-4">
+            <!-- Total Users -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card stat-card-blue">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-number">@Model.TotalUsers</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-footer">+@Model.NewUsersThisMonth this month</div>
+                </div>
+            </div>
+
+            <!-- Total Activities -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card stat-card-green">
+                    <span class="stat-icon">📋</span>
+                    <div class="stat-number">@Model.TotalActivities</div>
+                    <div class="stat-label">Total Activities</div>
+                    <div class="stat-footer">+@Model.ActivitiesThisMonth this month</div>
+                </div>
+            </div>
+
+            <!-- Total Emissions -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card stat-card-orange">
+                    <span class="stat-icon">🌍</span>
+                    <div class="stat-number">@Model.TotalEmissions</div>
+                    <div class="stat-label">Total CO₂ Emissions</div>
+                    <div class="stat-footer">@Model.EmissionsThisMonth kg this month</div>
+                </div>
+            </div>
+
+            <!-- Total Badges -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card stat-card-gold">
+                    <span class="stat-icon">🏆</span>
+                    <div class="stat-number">@Model.TotalBadgesEarned</div>
+                    <div class="stat-label">Badges Earned</div>
+                    <div class="stat-footer">Out of @Model.TotalRewards rewards</div>
                 </div>
             </div>
         </div>
 
-        <!-- Total Activities -->
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow text-center border-0" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white;">
-                <div class="card-body">
-                    <h5 class="card-title">Total Activities</h5>
-                    <h1 class="display-4 fw-bold">@Model.TotalActivities</h1>
-                    <p>+@Model.ActivitiesThisMonth this month</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Emissions -->
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow text-center border-0" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
-                <div class="card-body">
-                    <h5 class="card-title">Total CO₂ Emissions</h5>
-                    <h1 class="display-4 fw-bold">@Model.TotalEmissions</h1>
-                    <p>@Model.EmissionsThisMonth kg this month</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Badges -->
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow text-center border-0" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #333;">
-                <div class="card-body">
-                    <h5 class="card-title">Badges Earned</h5>
-                    <h1 class="display-4 fw-bold">@Model.TotalBadgesEarned</h1>
-                    <p>Out of @Model.TotalRewards rewards</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Category Breakdown -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">📊 Emissions by Category (All Users)</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🚗 Transport</h5>
-                                <h3 class="text-primary">@Model.TransportEmission</h3>
-                                <p>kg CO₂</p>
+        <!-- 📊 Category Breakdown -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="section-card">
+                    <div class="card-header card-header-dark">
+                        <h4 class="mb-0">📊 Emissions by Category (All Users)</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🚗</span>
+                                    <div class="cat-value text-primary">@Model.TransportEmission</div>
+                                    <div class="cat-label">Transport</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>⚡ Electricity</h5>
-                                <h3 class="text-warning">@Model.ElectricityEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">⚡</span>
+                                    <div class="cat-value text-warning">@Model.ElectricityEmission</div>
+                                    <div class="cat-label">Electricity</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🍽️ Food</h5>
-                                <h3 class="text-success">@Model.FoodEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🍽️</span>
+                                    <div class="cat-value text-success">@Model.FoodEmission</div>
+                                    <div class="cat-label">Food</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🗑️ Waste</h5>
-                                <h3 class="text-danger">@Model.WasteEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🗑️</span>
+                                    <div class="cat-value text-danger">@Model.WasteEmission</div>
+                                    <div class="cat-label">Waste</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Recent Activities & Top Users -->
-    <div class="row mb-4">
-        <!-- Recent Activities -->
-        <div class="col-lg-7">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">🔄 Recent Activities</h5>
-                </div>
-                <div class="card-body">
-                    @if (Model.RecentActivities.Any())
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Type</th>
-                                        <th>Amount</th>
-                                        <th>Emission</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.RecentActivities)
-                                    {
+        <!-- 🔄 Recent Activities & 🏆 Top Users -->
+        <div class="row mb-4">
+            <!-- Recent Activities -->
+            <div class="col-xl-7 col-lg-12 mb-3">
+                <div class="section-card">
+                    <div class="card-header card-header-blue">
+                        <h5 class="mb-0">🔄 Recent Activities</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.RecentActivities.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
                                         <tr>
-                                            <td>@item.UserName</td>
-                                            <td>@item.ActivityType</td>
-                                            <td>@item.Amount @item.Unit</td>
-                                            <td>@item.CarbonEmission kg</td>
-                                            <td>@item.Date.ToString("MMM dd")</td>
+                                            <th>User</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Emission</th>
+                                            <th>Date</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="text-muted text-center">No activities yet</p>
-                    }
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.RecentActivities)
+                                        {
+                                            <tr>
+                                                <td><strong>@item.UserName</strong></td>
+                                                <td>@item.ActivityType</td>
+                                                <td>@item.Amount @item.Unit</td>
+                                                <td>@item.CarbonEmission kg</td>
+                                                <td>@item.Date.ToString("MMM dd")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center py-3">No activities yet</p>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Top Users -->
-        <div class="col-lg-5">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">🏆 Top Users</h5>
-                </div>
-                <div class="card-body">
-                    @if (Model.TopUsers.Any())
-                    {
-                        <div class="list-group">
+            <!-- Top Users -->
+            <div class="col-xl-5 col-lg-12 mb-3">
+                <div class="section-card">
+                    <div class="card-header card-header-green">
+                        <h5 class="mb-0">🏆 Top Users</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.TopUsers.Any())
+                        {
                             @foreach (var user in Model.TopUsers)
                             {
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="top-user-item d-flex justify-content-between align-items-center">
                                     <div>
+                                        <span class="user-rank">🏅</span>
                                         <strong>@user.UserName</strong>
                                         <br />
                                         <small class="text-muted">@user.ActivityCount activities</small>
                                     </div>
-                                    <span class="badge bg-primary rounded-pill">@user.Points pts</span>
+                                    <span class="user-points">@user.Points pts</span>
                                 </div>
                             }
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="text-muted text-center">No users yet</p>
-                    }
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center py-3">No users yet</p>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
