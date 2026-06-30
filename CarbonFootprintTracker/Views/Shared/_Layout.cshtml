@@ -175,25 +175,7 @@
                     <p class="text-light-50" style="color: #A5D6A7;">
                         <em>"Leave a positive mark on the planet."</em>
                     </p>
-                    <p style="font-size: 0.95rem; color: #C8E6C9;">
-                        Track your carbon footprint, earn rewards,
-                        and make sustainable choices for a greener future.
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
-                    <h5>Quick Links</h5>
-                    <ul class="footer-links">
-                        <li><a asp-controller="Home" asp-action="Index">🏠 Home</a></li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a></li>
-                            <li><a asp-controller="Rewards" asp-action="Index">🏆 Rewards</a></li>
-                            <li><a asp-controller="CarbonActivities" asp-action="Index">📋 My Activities</a></li>
-                        }
-                        <li><a asp-controller="Home" asp-action="Privacy">🔒 Privacy Policy</a></li>
-                    </ul>
+                    
                 </div>
 
                 <!-- Contact & Social -->
@@ -208,10 +190,7 @@
                             <i class="fas fa-phone" style="color: var(--accent);"></i>
                             <a href="tel:+1234567890">+1 (234) 567-890</a>
                         </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt" style="color: var(--accent);"></i>
-                            <span style="color: #A5D6A7;">Green Planet, Earth 🌍</span>
-                        </li>
+                        
                     </ul>
                 </div>
 
