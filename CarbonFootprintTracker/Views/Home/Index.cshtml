@@ -1,8 +1,539 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- 🌿 LeafMark - Stylish Homepage with Hero Banner -->
+<style>
+    /* Hero Banner */
+    .hero-section {
+        position: relative;
+        background: linear-gradient(135deg, rgba(27, 94, 32, 0.92) 0%, rgba(46, 125, 50, 0.88) 50%, rgba(27, 94, 32, 0.92) 100%);
+        background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+        margin-top: -1.5rem;
+        border-radius: 0 0 50px 50px;
+        overflow: hidden;
+    }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(27, 94, 32, 0.3) 0%, rgba(27, 94, 32, 0.6) 100%);
+            z-index: 1;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+        .hero-content .main-icon {
+            font-size: 5rem;
+            animation: leafFloat 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+    /* ✅ Fixed: keyframes with proper syntax */
+    @@keyframes leafFloat {
+        0%
+
+    {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+
+    }
+
+    .hero-content h1 {
+        font-size: 4.5rem;
+        font-weight: 800;
+        color: #FFFFFF;
+        text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        margin-top: 0.5rem;
+        letter-spacing: -1px;
+    }
+
+        .hero-content h1 .leaf-highlight {
+            color: #FFC107;
+        }
+
+    .hero-content .tagline {
+        font-size: 1.8rem;
+        color: #E8F5E9;
+        font-style: italic;
+        font-weight: 300;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-content .description {
+        font-size: 1.2rem;
+        color: #C8E6C9;
+        max-width: 700px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.8;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Hero Buttons */
+    .hero-btn {
+        display: inline-block;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        margin: 0 10px 10px 0;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hero-btn-primary {
+        background: #FFC107;
+        color: #1B5E20;
+    }
+
+        .hero-btn-primary:hover {
+            background: #FFD54F;
+            color: #1B5E20;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 193, 7, 0.4);
+            text-decoration: none;
+        }
+
+    .hero-btn-secondary {
+        background: rgba(255,255,255,0.15);
+        color: #FFFFFF;
+        border: 2px solid rgba(255,255,255,0.4);
+        backdrop-filter: blur(10px);
+    }
+
+        .hero-btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+            color: #FFFFFF;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255,255,255,0.1);
+            border-color: #FFFFFF;
+            text-decoration: none;
+        }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 4rem 0;
+        background: #F0F7F0;
+    }
+
+        .stats-section .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stats-section .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #2E7D32;
+        }
+
+        .stats-section .stat-label {
+            font-size: 1rem;
+            color: #4A5568;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+
+        .stats-section .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+    /* Quotes Section */
+    .quotes-section {
+        padding: 5rem 0;
+        background: #FFFFFF;
+    }
+
+        .quotes-section .quote-card {
+            background: #F0F7F0;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border-left: 5px solid #2E7D32;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+            .quotes-section .quote-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 40px rgba(46, 125, 50, 0.15);
+            }
+
+        .quotes-section .quote-text {
+            font-size: 1.3rem;
+            color: #2D3748;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .quotes-section .quote-author {
+            color: #2E7D32;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .quotes-section .quote-icon {
+            font-size: 3rem;
+            color: #2E7D32;
+            opacity: 0.2;
+            margin-bottom: 0.5rem;
+        }
+
+    /* Features Section */
+    .features-section {
+        padding: 5rem 0;
+        background: #F0F7F0;
+    }
+
+        .features-section .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+            .features-section .section-title h2 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: #1B5E20;
+            }
+
+            .features-section .section-title p {
+                color: #4A5568;
+                font-size: 1.1rem;
+            }
+
+        .features-section .feature-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid transparent;
+        }
+
+            .features-section .feature-card:hover {
+                transform: translateY(-10px);
+                border-bottom-color: #2E7D32;
+                box-shadow: 0 10px 40px rgba(46, 125, 50, 0.15);
+            }
+
+        .features-section .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .features-section .feature-card h5 {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+
+        .features-section .feature-card p {
+            color: #4A5568;
+            font-size: 0.95rem;
+        }
+
+    /* CTA Final Section */
+    .cta-final {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        border-radius: 50px 50px 0 0;
+    }
+
+        .cta-final h2 {
+            color: #FFFFFF;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-final p {
+            color: #C8E6C9;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-final .hero-btn {
+            font-size: 1.3rem;
+            padding: 1.2rem 4rem;
+        }
+
+        .cta-final .sub-text {
+            color: #A5D6A7;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.8rem;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.3rem;
+        }
+
+        .hero-content .description {
+            font-size: 1rem;
+        }
+
+        .hero-btn {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            display: block;
+            margin: 10px auto;
+            width: 80%;
+        }
+
+        .stats-section .stat-number {
+            font-size: 2.2rem;
+        }
+
+        .quotes-section .quote-text {
+            font-size: 1.1rem;
+        }
+
+        .features-section .section-title h2 {
+            font-size: 1.8rem;
+        }
+
+        .cta-final h2 {
+            font-size: 1.8rem;
+        }
+
+        .cta-final .hero-btn {
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            width: 80%;
+        }
+
+        .hero-section {
+            min-height: 70vh;
+            border-radius: 0 0 30px 30px;
+        }
+    }
+</style>
+
+<!-- 🌿 Hero Banner Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <!-- Floating Leaf Icon -->
+        <div class="main-icon">🍃</div>
+
+        <!-- Main Heading -->
+        <h1>
+            Welcome to <span class="leaf-highlight">LeafMark</span>
+        </h1>
+
+        <!-- Tagline -->
+        <p class="tagline">"Leave a positive mark on the planet."</p>
+
+        <!-- Description -->
+        <p class="description">
+            Track your carbon footprint, earn rewards, and make sustainable choices
+            for a greener future. 🌍 Every small action counts!
+        </p>
+
+        <!-- Call to Action Buttons -->
+        <div>
+            <a asp-area="Identity" asp-page="/Account/Login" class="hero-btn hero-btn-primary">
+                🌿 Start Your Carbon Journey
+            </a>
+            <a href="#features" class="hero-btn hero-btn-secondary">
+                Learn More ↓
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 📊 Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-icon">🌍</span>
+                    <div class="stat-number" id="statUsers">500+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-icon">📊</span>
+                    <div class="stat-number" id="statActivities">1,000+</div>
+                    <div class="stat-label">Activities Tracked</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-icon">💚</span>
+                    <div class="stat-number" id="statCO2">250+</div>
+                    <div class="stat-label">kg CO₂ Saved</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <span class="stat-icon">🏆</span>
+                    <div class="stat-number" id="statBadges">100+</div>
+                    <div class="stat-label">Badges Earned</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 💚 Quotes Section -->
+<section class="quotes-section" id="quotes">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="quote-card">
+                    <div class="quote-icon">❝</div>
+                    <p class="quote-text">
+                        "The greatest threat to our planet is the belief that someone else will save it."
+                    </p>
+                    <p class="quote-author">— Robert Swan</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="quote-card">
+                    <div class="quote-icon">❝</div>
+                    <p class="quote-text">
+                        "We do not inherit the earth from our ancestors; we borrow it from our children."
+                    </p>
+                    <p class="quote-author">— Native American Proverb</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="quote-card">
+                    <div class="quote-icon">❝</div>
+                    <p class="quote-text">
+                        "Every action you take is a vote for the kind of world you want to live in."
+                    </p>
+                    <p class="quote-author">— Unknown</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ⭐ Features Section -->
+<section class="features-section" id="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>🌿 Why Choose LeafMark?</h2>
+            <p>Empowering you to make a difference, one step at a time.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h5>Track Carbon</h5>
+                    <p>Monitor your daily carbon emissions across all activities.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="feature-card">
+                    <span class="feature-icon">🤖</span>
+                    <h5>AI Recommendations</h5>
+                    <p>Get personalized AI-driven tips to reduce your footprint.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h5>Earn Rewards</h5>
+                    <p>Unlock badges and earn points for sustainable choices.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="feature-card">
+                    <span class="feature-icon">📈</span>
+                    <h5>Visual Insights</h5>
+                    <p>Beautiful charts and reports to track your progress.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🚀 Final CTA Section -->
+<section class="cta-final">
+    <div class="container">
+        <h2>🌍 Ready to Make a Difference?</h2>
+        <p>
+            Join thousands of users who are tracking their carbon footprint
+            and leaving a positive mark on the planet.
+        </p>
+        <a asp-area="Identity" asp-page="/Account/Login" class="hero-btn hero-btn-primary">
+            🚀 Start Your Journey Today
+        </a>
+        <p class="sub-text">
+            🌱 It's free. It's easy. It's time to act.
+        </p>
+    </div>
+</section>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<!-- Simple Counter Animation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stats = document.querySelectorAll('.stat-number');
+        stats.forEach(stat => {
+            const text = stat.textContent;
+            const number = parseInt(text.replace(/[^0-9]/g, ''));
+            if (!isNaN(number)) {
+                let current = 0;
+                const increment = Math.ceil(number / 30);
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        current = number;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = current + '+';
+                }, 80);
+            }
+        });
+    });
+</script>
