@@ -3,181 +3,408 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container mt-4">
-    <!-- Welcome Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card bg-primary text-white shadow">
-                <div class="card-body">
-                    <h2 class="mb-0">🌍 Welcome, @Model.UserName!</h2>
-                    <p class="mb-0">Here's your carbon footprint summary</p>
+<style>
+    /* 🌿 LeafMark Dashboard Theme */
+    .dashboard-container {
+        background: #F0F7F0;
+        padding: 1.5rem 0;
+    }
+
+    /* Welcome Card */
+    .welcome-card {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        border-radius: 20px;
+        padding: 2rem 2.5rem;
+        color: #FFFFFF;
+        box-shadow: 0 10px 40px rgba(27, 94, 32, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .welcome-card::before {
+            content: '🍃';
+            position: absolute;
+            right: 30px;
+            top: -10px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(20deg);
+        }
+
+        .welcome-card h2 {
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .welcome-card .subtitle {
+            color: #C8E6C9;
+            font-size: 1.1rem;
+        }
+
+    /* Stats Cards */
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        height: 100%;
+        background: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0;
+        }
+
+        .stat-card .stat-label {
+            color: #4A5568;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-footer {
+            font-size: 0.8rem;
+            color: #A5D6A7;
+            margin-top: 0.3rem;
+        }
+
+    /* Chart Cards */
+    .chart-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        background: #FFFFFF;
+        height: 100%;
+    }
+
+        .chart-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .chart-card .card-header {
+            background: #1B5E20;
+            color: #FFFFFF;
+            border-radius: 16px 16px 0 0;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            border: none;
+        }
+
+        .chart-card .card-body {
+            padding: 1.5rem;
+        }
+
+    /* Category Breakdown Cards */
+    .category-card {
+        border-radius: 14px;
+        padding: 1.2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #FFFFFF;
+        border: 2px solid #E8F5E9;
+        height: 100%;
+    }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.12);
+            border-color: #2E7D32;
+        }
+
+        .category-card .cat-icon {
+            font-size: 2.2rem;
+            display: block;
+        }
+
+        .category-card .cat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0.3rem 0 0;
+        }
+
+        .category-card .cat-label {
+            color: #4A5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+    /* AI Recommendation Card */
+    .ai-card {
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #E8F5E9 0%, #F0F7F0 100%);
+        border-left: 5px solid #FFC107;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+    }
+
+        .ai-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .ai-card .ai-icon {
+            font-size: 3.5rem;
+        }
+
+        .ai-card .ai-text {
+            font-size: 1.15rem;
+            color: #2D3748;
+            font-weight: 500;
+        }
+
+    /* Action Buttons */
+    .action-btn {
+        border-radius: 50px;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: none;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+    .action-btn-success {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-success:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            color: #FFFFFF;
+        }
+
+    .action-btn-primary {
+        background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-primary:hover {
+            background: linear-gradient(135deg, #0D47A1 0%, #0A2E6E 100%);
+            color: #FFFFFF;
+        }
+
+    .action-btn-warning {
+        background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+        color: #FFFFFF;
+    }
+
+        .action-btn-warning:hover {
+            background: linear-gradient(135deg, #F57F17 0%, #E65100 100%);
+            color: #FFFFFF;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .welcome-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .welcome-card::before {
+            font-size: 5rem;
+            right: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+        }
+
+        .category-card .cat-value {
+            font-size: 1.4rem;
+        }
+
+        .ai-card .ai-text {
+            font-size: 1rem;
+        }
+
+        .action-btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="container-fluid">
+        <!-- 🌿 Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="welcome-card">
+                    <div>
+                        <h2>🌍 Welcome, @Model.UserName!</h2>
+                        <p class="subtitle">🍃 Here's your carbon footprint summary — every small step counts!</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Stats Cards Row -->
-    <div class="row mb-4">
-        <!-- Total Emission Card -->
-        <div class="col-md-3 mb-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Total CO₂ Emission</h5>
-                    <h1 class="display-4 fw-bold text-danger">@Model.TotalEmission</h1>
-                    <p class="card-text">kg CO₂</p>
+        <!-- 📊 Stats Cards Row -->
+        <div class="row mb-4">
+            <!-- Total Emission Card -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card p-3 text-center">
+                    <span class="stat-icon">🌍</span>
+                    <div class="stat-number text-danger">@Model.TotalEmission</div>
+                    <div class="stat-label">Total CO₂ Emission</div>
+                    <div class="stat-footer">kg CO₂</div>
+                </div>
+            </div>
+
+            <!-- This Month Card -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card p-3 text-center">
+                    <span class="stat-icon">📅</span>
+                    <div class="stat-number text-warning">@Model.ThisMonthEmission</div>
+                    <div class="stat-label">This Month</div>
+                    <div class="stat-footer">kg CO₂</div>
+                </div>
+            </div>
+
+            <!-- Total Activities Card -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card p-3 text-center">
+                    <span class="stat-icon">📋</span>
+                    <div class="stat-number text-success">@Model.TotalActivities</div>
+                    <div class="stat-label">Total Activities</div>
+                    <div class="stat-footer">Records Tracked</div>
+                </div>
+            </div>
+
+            <!-- Highest Source Card -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                <div class="stat-card p-3 text-center">
+                    <span class="stat-icon">🎯</span>
+                    <div class="stat-number text-info" style="font-size: 1.8rem;">@Model.HighestEmissionSource</div>
+                    <div class="stat-label">Highest Emission</div>
+                    <div class="stat-footer">@Model.HighestEmissionValue kg CO₂</div>
                 </div>
             </div>
         </div>
 
-        <!-- This Month Card -->
-        <div class="col-md-3 mb-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">This Month</h5>
-                    <h1 class="display-4 fw-bold text-warning">@Model.ThisMonthEmission</h1>
-                    <p class="card-text">kg CO₂</p>
+        <!-- 📈 Charts Row -->
+        <div class="row mb-4">
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-3">
+                <div class="chart-card">
+                    <div class="card-header">📈 Daily Emissions (Last 7 Days)</div>
+                    <div class="card-body">
+                        <canvas id="dailyChart" style="height: 250px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-3">
+                <div class="chart-card">
+                    <div class="card-header">🍩 Category Breakdown</div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" style="height: 250px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Total Activities Card -->
-        <div class="col-md-3 mb-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Total Activities</h5>
-                    <h1 class="display-4 fw-bold text-success">@Model.TotalActivities</h1>
-                    <p class="card-text">Records Tracked</p>
+        <!-- 📊 Monthly Chart Row -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="chart-card">
+                    <div class="card-header">📊 Monthly Emissions (Last 6 Months)</div>
+                    <div class="card-body">
+                        <canvas id="monthlyChart" style="height: 250px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Highest Source Card -->
-        <div class="col-md-3 mb-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Highest Emission</h5>
-                    <h1 class="display-6 fw-bold text-info">@Model.HighestEmissionSource</h1>
-                    <p class="card-text">@Model.HighestEmissionValue kg CO₂</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Row -->
-    <div class="row mb-4">
-        <!-- Line Chart - Daily Emissions -->
-        <div class="col-md-6 mb-3">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">📈 Daily Emissions (Last 7 Days)</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="dailyChart" style="height: 250px;"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- pie Chart - Category Breakdown -->
-        <div class="col-md-6 mb-3">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">🍩 Category Breakdown</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="categoryChart" style="height: 250px;"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Monthly Chart Row -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">📊 Monthly Emissions (Last 6 Months)</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="monthlyChart" style="height: 250px;"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Category Breakdown Row -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-secondary text-white">
-                    <h4 class="mb-0">📊 Emissions by Category</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🚗 Transport</h5>
-                                <h3 class="text-primary">@Model.TransportEmission</h3>
-                                <p>kg CO₂</p>
+        <!-- 📊 Category Breakdown Row -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-header bg-dark text-white rounded-top-4">
+                        <h4 class="mb-0">📊 Emissions by Category</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🚗</span>
+                                    <div class="cat-value text-primary">@Model.TransportEmission</div>
+                                    <div class="cat-label">Transport</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>⚡ Electricity</h5>
-                                <h3 class="text-warning">@Model.ElectricityEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">⚡</span>
+                                    <div class="cat-value text-warning">@Model.ElectricityEmission</div>
+                                    <div class="cat-label">Electricity</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🍽️ Food</h5>
-                                <h3 class="text-success">@Model.FoodEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🍽️</span>
+                                    <div class="cat-value text-success">@Model.FoodEmission</div>
+                                    <div class="cat-label">Food</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <div class="p-3 border rounded">
-                                <h5>🗑️ Waste</h5>
-                                <h3 class="text-danger">@Model.WasteEmission</h3>
-                                <p>kg CO₂</p>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <div class="category-card">
+                                    <span class="cat-icon">🗑️</span>
+                                    <div class="cat-value text-danger">@Model.WasteEmission</div>
+                                    <div class="cat-label">Waste</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- AI Recommendation Row -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow border-success">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0">🤖 AI Smart Recommendation</h4>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="display-1 me-3">@Model.RecommendationIcon</div>
+        <!-- 🤖 AI Recommendation Row -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="ai-card">
+                    <div class="card-body d-flex align-items-center p-4">
+                        <div class="ai-icon me-4">@Model.RecommendationIcon</div>
                         <div>
-                            <p class="lead mb-0">@Model.AiRecommendation</p>
+                            <h5 class="mb-1 text-success">🤖 AI Smart Recommendation</h5>
+                            <p class="ai-text mb-0">@Model.AiRecommendation</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="row">
-        <div class="col-12 text-center">
-            <a asp-controller="CarbonActivities" asp-action="Create" class="btn btn-success btn-lg me-2">
-                ➕ Add New Activity
-            </a>
-            <a asp-controller="CarbonActivities" asp-action="Index" class="btn btn-primary btn-lg">
-                📋 View All Activities
-            </a>
-            <a asp-controller="Rewards" asp-action="Index" class="btn btn-warning btn-lg">
-                🏆 My Rewards
-            </a>
+        <!-- 🚀 Action Buttons -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <a asp-controller="CarbonActivities" asp-action="Create" class="action-btn action-btn-success me-2 mb-2">
+                    ➕ Add New Activity
+                </a>
+                <a asp-controller="CarbonActivities" asp-action="Index" class="action-btn action-btn-primary me-2 mb-2">
+                    📋 View All Activities
+                </a>
+                <a asp-controller="Rewards" asp-action="Index" class="action-btn action-btn-warning me-2 mb-2">
+                    🏆 My Rewards
+                </a>
+                <a asp-controller="Reports" asp-action="Index" class="action-btn action-btn-primary mb-2" style="background: linear-gradient(135deg, #7B1FA2 0%, #4A148C 100%);">
+                    📈 Reports
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -209,8 +436,8 @@
                 datasets: [{
                     label: 'CO₂ Emissions (kg)',
                     data: dailyValues,
-                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
-                    borderColor: 'rgba(13, 110, 253, 1)',
+                    backgroundColor: 'rgba(46, 125, 50, 0.2)',
+                    borderColor: '#2E7D32',
                     borderWidth: 3,
                     tension: 0.3,
                     fill: true
@@ -269,8 +496,8 @@
                 datasets: [{
                     label: 'Monthly CO₂ Emissions (kg)',
                     data: monthlyValues,
-                    backgroundColor: 'rgba(40, 167, 69, 0.6)',
-                    borderColor: 'rgba(40, 167, 69, 1)',
+                    backgroundColor: 'rgba(46, 125, 50, 0.6)',
+                    borderColor: '#2E7D32',
                     borderWidth: 2,
                     borderRadius: 5
                 }]
