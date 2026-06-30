@@ -4,68 +4,439 @@
     ViewData["Title"] = "My Carbon Activities";
 }
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0">📊 My Carbon Footprint Activities</h3>
-                    <a asp-action="Create" class="btn btn-light">➕ Add New Activity</a>
-                </div>
-                <div class="card-body">
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>✅ Success!</strong> @TempData["Success"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    }
+<style>
+    /* 🌿 LeafMark Carbon Activities Theme */
+    .activities-container {
+        background: #F0F7F0;
+        padding: 1.5rem 0;
+        min-height: 70vh;
+    }
 
-                    @if (!Model.Any())
-                    {
-                        <div class="alert alert-warning text-center">
-                            <h5>No activities yet!</h5>
-                            <p>Click the <strong>"Add New Activity"</strong> button to start tracking your carbon footprint.</p>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Activity Type</th>
-                                        <th>Amount</th>
-                                        <th>Unit</th>
-                                        <th>CO₂ Emission (kg)</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+    /* Main Card */
+    .main-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        background: #FFFFFF;
+        overflow: hidden;
+    }
+
+        .main-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .main-card .card-header {
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+            padding: 1.2rem 1.8rem;
+            border: none;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+            .main-card .card-header h3 {
+                color: #FFFFFF;
+                font-weight: 700;
+                margin: 0;
+                font-size: 1.5rem;
+            }
+
+        .main-card .card-body {
+            padding: 1.8rem;
+        }
+
+    /* Create Button */
+    .btn-create {
+        background: #FFC107;
+        color: #1B5E20;
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+
+        .btn-create:hover {
+            background: #FFD54F;
+            color: #1B5E20;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 193, 7, 0.4);
+            text-decoration: none;
+        }
+
+    /* Success Alert */
+    .alert-success-custom {
+        background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+        border: none;
+        border-left: 5px solid #2E7D32;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        color: #1B5E20;
+        font-weight: 500;
+    }
+
+        .alert-success-custom .btn-close {
+            filter: brightness(0.5);
+        }
+
+    /* No Data */
+    .no-data {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #4A5568;
+    }
+
+        .no-data .no-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-data h5 {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+
+    /* Table Styling */
+    .activity-table {
+        margin-bottom: 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+        .activity-table thead th {
+            background: linear-gradient(135deg, #1a2332 0%, #0d1b2a 100%);
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #F0F7F0;
+        }
+
+            .activity-table tbody tr:hover {
+                background: #E8F5E9;
+                transform: scale(1.01);
+                box-shadow: 0 4px 15px rgba(46, 125, 50, 0.08);
+            }
+
+        .activity-table tbody td {
+            padding: 0.8rem 1rem;
+            vertical-align: middle;
+            color: #2D3748;
+            font-size: 0.95rem;
+        }
+
+    /* Activity Type Badge */
+    .activity-badge {
+        padding: 0.25rem 0.8rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-block;
+    }
+
+    .activity-badge-transport {
+        background: #E3F2FD;
+        color: #0D47A1;
+    }
+
+    .activity-badge-electricity {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+
+    .activity-badge-food {
+        background: #E8F5E9;
+        color: #1B5E20;
+    }
+
+    .activity-badge-waste {
+        background: #FBE9E7;
+        color: #BF360C;
+    }
+
+    .activity-badge-other {
+        background: #F3E5F5;
+        color: #4A148C;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0.1rem;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+    .action-btn-edit {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+
+        .action-btn-edit:hover {
+            background: #FFE0B2;
+            color: #BF360C;
+        }
+
+    .action-btn-details {
+        background: #E3F2FD;
+        color: #0D47A1;
+    }
+
+        .action-btn-details:hover {
+            background: #BBDEFB;
+            color: #0A2E6E;
+        }
+
+    .action-btn-delete {
+        background: #FFEBEE;
+        color: #B71C1C;
+    }
+
+        .action-btn-delete:hover {
+            background: #FFCDD2;
+            color: #880E4F;
+        }
+
+    /* Total Footprint Alert */
+    .total-alert {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        border: none;
+        border-radius: 12px;
+        color: #FFFFFF;
+        padding: 1rem 1.5rem;
+        margin-top: 1.5rem;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+        .total-alert .total-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFC107;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .main-card .card-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .main-card .card-header h3 {
+                font-size: 1.2rem;
+            }
+
+        .btn-create {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .activity-table thead th {
+            font-size: 0.7rem;
+            padding: 0.5rem;
+        }
+
+        .activity-table tbody td {
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+
+        .action-btn {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+        }
+
+        .total-alert {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .total-alert .total-value {
+                font-size: 1.4rem;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .activity-table thead {
+            display: none;
+        }
+
+        .activity-table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 0.5rem;
+        }
+
+        .activity-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0.6rem;
+            border: none;
+            border-bottom: 1px solid #F0F7F0;
+            font-size: 0.85rem;
+        }
+
+            .activity-table tbody td:last-child {
+                border-bottom: none;
+            }
+
+            .activity-table tbody td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #1B5E20;
+                font-size: 0.75rem;
+            }
+
+            .activity-table tbody td .action-btn {
+                margin: 0.1rem;
+            }
+    }
+</style>
+
+<div class="activities-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- 🌿 Main Card -->
+                <div class="main-card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <h3>📊 My Carbon Footprint Activities</h3>
+                        <a asp-action="Create" class="btn-create">
+                            ➕ Add New Activity
+                        </a>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Success Message -->
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success-custom alert-dismissible fade show" role="alert">
+                                <strong>✅ Success!</strong> @TempData["Success"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- No Activities -->
+                        @if (!Model.Any())
+                        {
+                            <div class="no-data">
+                                <span class="no-icon">📭</span>
+                                <h5>No activities yet!</h5>
+                                <p>Click the <strong>"Add New Activity"</strong> button to start tracking your carbon footprint.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Activities Table -->
+                            <div class="table-responsive">
+                                <table class="table activity-table">
+                                    <thead>
                                         <tr>
-                                            <td>@item.Date.ToString("yyyy-MM-dd HH:mm")</td>
-                                            <td>@item.ActivityType</td>
-                                            <td>@item.Amount</td>
-                                            <td>@item.Unit</td>
-                                            <td class="fw-bold text-danger">@item.CarbonEmission</td>
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
-                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
-                                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                                            </td>
+                                            <th>Date</th>
+                                            <th>Activity Type</th>
+                                            <th>Amount</th>
+                                            <th>Unit</th>
+                                            <th>CO₂ Emission</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            // Determine badge class based on activity type
+                                            string badgeClass = "activity-badge-other";
+                                            switch (item.ActivityType)
+                                            {
+                                                case "Transport":
+                                                    badgeClass = "activity-badge-transport";
+                                                    break;
+                                                case "Electricity":
+                                                    badgeClass = "activity-badge-electricity";
+                                                    break;
+                                                case "Food":
+                                                    badgeClass = "activity-badge-food";
+                                                    break;
+                                                case "Waste":
+                                                    badgeClass = "activity-badge-waste";
+                                                    break;
+                                            }
 
-                        <div class="alert alert-info mt-3">
-                            <strong>🌍 Total Carbon Footprint:</strong> @Model.Sum(x => x.CarbonEmission) kg CO₂
-                        </div>
-                    }
+                                            <tr>
+                                                <td data-label="Date">
+                                                    <span style="font-size: 0.85rem; color: #4A5568;">
+                                                        @item.Date.ToString("yyyy-MM-dd HH:mm")
+                                                    </span>
+                                                </td>
+                                                <td data-label="Activity Type">
+                                                    <span class="activity-badge @badgeClass">@item.ActivityType</span>
+                                                </td>
+                                                <td data-label="Amount">
+                                                    <span style="font-weight: 600;">@item.Amount</span>
+                                                </td>
+                                                <td data-label="Unit">@item.Unit</td>
+                                                <td data-label="CO₂ Emission">
+                                                    <span style="font-weight: 700; color: #D32F2F;">@item.CarbonEmission kg</span>
+                                                </td>
+                                                <td data-label="Actions">
+                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn action-btn-edit">
+                                                        ✏️ Edit
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@item.Id" class="action-btn action-btn-details">
+                                                        📄 Details
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="action-btn action-btn-delete">
+                                                        🗑️ Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Total Footprint -->
+                            <div class="total-alert">
+                                <span>🌍 Total Carbon Footprint</span>
+                                <span class="total-value">@Model.Sum(x => x.CarbonEmission) kg CO₂</span>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
