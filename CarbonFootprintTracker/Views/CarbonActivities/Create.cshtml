@@ -7,89 +7,297 @@
     ViewData["Title"] = "Add Carbon Activity";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h3 class="mb-0">Add New Carbon Activity</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Login Status Check -->
-                    @if (!SignInManager.IsSignedIn(User))
-                    {
-                        <div class="alert alert-danger">
-                            <strong>❌ You are NOT logged in!</strong> Please <a href="/Identity/Account/Login">login here</a> first.
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-success">
-                            <strong>✅ You are logged in as:</strong> @User.Identity?.Name
-                        </div>
-                    }
+<style>
+    /* 🌿 LeafMark Create Activity Theme */
+    .create-container {
+        background: #F0F7F0;
+        padding: 2rem 0;
+        min-height: 80vh;
+    }
 
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>✅ Success!</strong> @TempData["Success"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    }
+    /* Main Card */
+    .create-card {
+        border: none;
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        background: #FFFFFF;
+        overflow: hidden;
+    }
 
-                    <!-- Validation Summary -->
-                    <div asp-validation-summary="All" class="alert alert-danger"></div>
+        .create-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.15);
+        }
 
-                    <form asp-action="Create" method="post">
-                        <!-- Activity Type -->
-                        <div class="mb-3">
-                            <label asp-for="ActivityType" class="form-label fw-bold"></label>
-                            <select asp-for="ActivityType" class="form-select">
-                                <option value="">-- Select Activity Type --</option>
-                                <option value="Transport">🚗 Transport</option>
-                                <option value="Electricity">⚡ Electricity</option>
-                                <option value="Food">🍽️ Food</option>
-                                <option value="Waste">🗑️ Waste</option>
-                            </select>
-                            <span asp-validation-for="ActivityType" class="text-danger"></span>
-                        </div>
+        .create-card .card-header {
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 24px 24px 0 0;
+        }
 
-                        <!-- Amount -->
-                        <div class="mb-3">
-                            <label asp-for="Amount" class="form-label fw-bold"></label>
-                            <input asp-for="Amount" class="form-control" type="number" step="0.01" />
-                            <span asp-validation-for="Amount" class="text-danger"></span>
-                        </div>
+            .create-card .card-header h3 {
+                color: #FFFFFF;
+                font-weight: 700;
+                margin: 0;
+                font-size: 1.5rem;
+            }
 
-                        <!-- Unit -->
-                        <div class="mb-3">
-                            <label asp-for="Unit" class="form-label fw-bold"></label>
-                            <select asp-for="Unit" class="form-select">
-                                <option value="">-- Select Unit --</option>
-                                <option value="km">Kilometers (km)</option>
-                                <option value="mile">Miles</option>
-                                <option value="minute">Minutes</option>
-                                <option value="kwh">Kilowatt-hours (kWh)</option>
-                                <option value="unit">Units</option>
-                                <option value="meal">Meals</option>
-                                <option value="kg">Kilograms (kg)</option>
-                                <option value="bag">Bags</option>
-                            </select>
-                            <span asp-validation-for="Unit" class="text-danger"></span>
-                        </div>
+        .create-card .card-body {
+            padding: 2rem;
+        }
 
-                        <!-- DO NOT include hidden fields for CarbonEmission, UserId, Date -->
-                        <!-- They will be set in the controller -->
+    /* Login Status Alert */
+    .alert-login-success {
+        background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+        border: none;
+        border-left: 5px solid #2E7D32;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        color: #1B5E20;
+        font-weight: 500;
+    }
 
-                        <div class="alert alert-info mt-3">
-                            <strong>💡 Note:</strong> Your carbon emission will be calculated automatically.
-                        </div>
+    .alert-login-danger {
+        background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+        border: none;
+        border-left: 5px solid #B71C1C;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        color: #B71C1C;
+        font-weight: 500;
+    }
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a asp-action="Index" class="btn btn-secondary me-md-2">Cancel</a>
-                            <button type="submit" class="btn btn-success">Create Activity</button>
-                        </div>
-                    </form>
+    /* Form Labels */
+    .form-label-custom {
+        font-weight: 600;
+        color: #1B5E20;
+        margin-bottom: 0.4rem;
+        font-size: 0.95rem;
+    }
+
+    /* Form Controls */
+    .form-control-custom {
+        border-radius: 12px;
+        border: 2px solid #E8F5E9;
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #FAFDFA;
+        height: 50px;
+        width: 100%;
+    }
+
+        .form-control-custom:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+            background: #FFFFFF;
+            outline: none;
+        }
+
+    .form-select-custom {
+        border-radius: 12px;
+        border: 2px solid #E8F5E9;
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #FAFDFA;
+        height: 50px;
+        width: 100%;
+        appearance: auto;
+    }
+
+        .form-select-custom:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+            outline: none;
+        }
+
+    /* Info Note */
+    .info-note {
+        background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        color: #0D47A1;
+        font-weight: 500;
+        border-left: 5px solid #0D47A1;
+    }
+
+        .info-note i {
+            margin-right: 0.5rem;
+        }
+
+    /* Validation Summary */
+    .validation-summary {
+        border-radius: 12px;
+        background: #FFEBEE;
+        border: 1px solid #EF9A9A;
+        color: #B71C1C;
+        padding: 1rem 1.5rem;
+    }
+
+        .validation-summary ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+    /* Buttons */
+    .btn-cancel {
+        background: #E8F5E9;
+        color: #2E7D32;
+        border: none;
+        border-radius: 50px;
+        padding: 0.6rem 1.8rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-cancel:hover {
+            background: #C8E6C9;
+            color: #1B5E20;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.15);
+            text-decoration: none;
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 50px;
+        padding: 0.6rem 2.5rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .create-card .card-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .create-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .btn-cancel, .btn-submit {
+            width: 100%;
+            text-align: center;
+            margin: 0.3rem 0;
+        }
+
+        .d-grid {
+            gap: 0.5rem !important;
+        }
+    }
+</style>
+
+<div class="create-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <!-- 🌿 Main Card -->
+                <div class="create-card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <h3>🌱 Add New Carbon Activity</h3>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Login Status Check -->
+                        @if (!SignInManager.IsSignedIn(User))
+                        {
+                            <div class="alert alert-login-danger">
+                                <strong>❌ You are NOT logged in!</strong>
+                                Please <a href="/Identity/Account/Login" style="color: #B71C1C; font-weight: 700;">login here</a> first.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-login-success">
+                                <strong>✅ You are logged in as:</strong> @User.Identity?.Name
+                            </div>
+                        }
+
+                        <!-- Success Message -->
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-login-success alert-dismissible fade show" role="alert">
+                                <strong>✅ Success!</strong> @TempData["Success"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="All" class="validation-summary"></div>
+
+                        <!-- Form -->
+                        <form asp-action="Create" method="post" style="margin-top: 1.5rem;">
+                            <!-- Activity Type -->
+                            <div class="mb-3">
+                                <label asp-for="ActivityType" class="form-label-custom">📋 Activity Type</label>
+                                <select asp-for="ActivityType" class="form-select-custom">
+                                    <option value="">-- Select Activity Type --</option>
+                                    <option value="Transport">🚗 Transport</option>
+                                    <option value="Electricity">⚡ Electricity</option>
+                                    <option value="Food">🍽️ Food</option>
+                                    <option value="Waste">🗑️ Waste</option>
+                                </select>
+                                <span asp-validation-for="ActivityType" class="text-danger" style="font-size: 0.85rem;"></span>
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                <label asp-for="Amount" class="form-label-custom">🔢 Amount</label>
+                                <input asp-for="Amount" class="form-control-custom" type="number" step="0.01" placeholder="Enter amount..." />
+                                <span asp-validation-for="Amount" class="text-danger" style="font-size: 0.85rem;"></span>
+                            </div>
+
+                            <!-- Unit -->
+                            <div class="mb-3">
+                                <label asp-for="Unit" class="form-label-custom">📏 Unit</label>
+                                <select asp-for="Unit" class="form-select-custom">
+                                    <option value="">-- Select Unit --</option>
+                                    <option value="km">Kilometers (km)</option>
+                                    <option value="mile">Miles</option>
+                                    <option value="minute">Minutes</option>
+                                    <option value="kwh">Kilowatt-hours (kWh)</option>
+                                    <option value="unit">Units</option>
+                                    <option value="meal">Meals</option>
+                                    <option value="kg">Kilograms (kg)</option>
+                                    <option value="bag">Bags</option>
+                                </select>
+                                <span asp-validation-for="Unit" class="text-danger" style="font-size: 0.85rem;"></span>
+                            </div>
+
+                            <!-- Note -->
+                            <div class="info-note">
+                                <strong>💡 Note:</strong> Your carbon emission will be calculated automatically based on your activity type, amount, and unit.
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a asp-action="Index" class="btn-cancel">❌ Cancel</a>
+                                <button type="submit" class="btn-submit">✅ Create Activity</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
