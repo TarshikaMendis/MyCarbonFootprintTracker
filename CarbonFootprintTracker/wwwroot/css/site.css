@@ -1,22 +1,491 @@
+﻿/* 🌿 LeafMark - Main Stylesheet
+   ========================================
+   Brand: LeafMark
+   Tagline: "Leave a positive mark on the planet."
+   Theme: Earthy Green
+   Primary Color: #2E7D32
+   Light Green: #4CAF50
+   Dark Green: #1B5E20
+   Accent Gold: #FFC107
+   Soft Background: #F0F7F0
+   ======================================== */
+
+/* 🌿 Base Styles
+   ======================================== */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+    scroll-behavior: smooth;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: #F0F7F0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2D3748;
+}
+
+/* 🌿 Focus States
+   ======================================== */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+    border-color: #2E7D32;
+    outline: none;
+}
+
+/* 🌿 Selection Color
+   ======================================== */
+::selection {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+::-moz-selection {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+/* 🌿 Scrollbar Styling
+   ======================================== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #E8F5E9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2E7D32, #1B5E20);
+    border-radius: 10px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #1B5E20;
+    }
+
+/* 🌿 Typography
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+    color: #1B5E20;
+    font-weight: 600;
+}
+
+a {
+    color: #2E7D32;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #1B5E20;
+        text-decoration: underline;
+    }
+
+/* 🌿 Buttons
+   ======================================== */
+.btn-primary {
+    background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+    border: none;
+    color: #FFFFFF;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+        color: #FFFFFF;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+    }
+
+.btn-success {
+    background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+    border: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+    }
+
+.btn-warning {
+    background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+    border: none;
+    color: #FFFFFF;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(245, 127, 23, 0.3);
+}
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #F57F17 0%, #E65100 100%);
+        color: #FFFFFF;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(245, 127, 23, 0.4);
+    }
+
+.btn-danger {
+    background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
+    border: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+}
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #880E4F 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(211, 47, 47, 0.4);
+    }
+
+.btn-info {
+    background: linear-gradient(135deg, #0D47A1 0%, #0A2E6E 100%);
+    border: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);
+}
+
+    .btn-info:hover {
+        background: linear-gradient(135deg, #0A2E6E 0%, #071F4A 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(13, 71, 161, 0.4);
+    }
+
+.btn-secondary {
+    background: #4A5568;
+    border: none;
+    transition: all 0.4s ease;
+}
+
+    .btn-secondary:hover {
+        background: #2D3748;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(74, 85, 104, 0.3);
+    }
+
+/* 🌿 Cards
+   ======================================== */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s ease;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+    .card:hover {
+        box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+    }
+
+.card-header {
+    border: none;
+    font-weight: 600;
+}
+
+/* 🌿 Navbar
+   ======================================== */
+.navbar {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: #2E7D32 !important;
+    font-size: 1.5rem;
+}
+
+    .navbar-brand:hover {
+        color: #1B5E20 !important;
+    }
+
+.nav-link {
+    font-weight: 500;
+    color: #4A5568 !important;
+    transition: all 0.3s ease;
+}
+
+    .nav-link:hover {
+        color: #2E7D32 !important;
+    }
+
+    .nav-link.active {
+        color: #2E7D32 !important;
+        font-weight: 600;
+    }
+
+/* 🌿 Tables
+   ======================================== */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .table thead th {
+        background: linear-gradient(135deg, #1a2332 0%, #0d1b2a 100%);
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 0.8rem 1rem;
+        border: none;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+        .table tbody tr:hover {
+            background: #E8F5E9;
+        }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: #FAFDFA;
+}
+
+    .table-striped tbody tr:nth-of-type(odd):hover {
+        background: #E8F5E9;
+    }
+
+/* 🌿 Forms
+   ======================================== */
+.form-control {
+    border-radius: 12px;
+    border: 2px solid #E8F5E9;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #FAFDFA;
+}
+
+    .form-control:focus {
+        border-color: #2E7D32;
+        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+        background: #FFFFFF;
+    }
+
+.form-select {
+    border-radius: 12px;
+    border: 2px solid #E8F5E9;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #FAFDFA;
+}
+
+    .form-select:focus {
+        border-color: #2E7D32;
+        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+    }
+
+.form-label {
+    font-weight: 600;
+    color: #1B5E20;
+}
+
+.form-floating .form-control:focus ~ label,
+.form-floating .form-control:not(:placeholder-shown) ~ label {
+    color: #2E7D32;
+}
+
+.form-floating .form-control:focus {
+    border-color: #2E7D32;
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+}
+
+/* 🌿 Alerts
+   ======================================== */
+.alert-success {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    border: none;
+    border-left: 5px solid #2E7D32;
+    color: #1B5E20;
+    border-radius: 12px;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+    border: none;
+    border-left: 5px solid #B71C1C;
+    color: #B71C1C;
+    border-radius: 12px;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    border: none;
+    border-left: 5px solid #E65100;
+    color: #E65100;
+    border-radius: 12px;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+    border: none;
+    border-left: 5px solid #0D47A1;
+    color: #0D47A1;
+    border-radius: 12px;
+}
+
+/* 🌿 Badges
+   ======================================== */
+.badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.badge-success {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+.badge-warning {
+    background: #F9A825;
+    color: #FFFFFF;
+}
+
+.badge-danger {
+    background: #D32F2F;
+    color: #FFFFFF;
+}
+
+.badge-info {
+    background: #0D47A1;
+    color: #FFFFFF;
+}
+
+.badge-primary {
+    background: #1565C0;
+    color: #FFFFFF;
+}
+
+/* 🌿 Footer
+   ======================================== */
+.footer {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+    color: #E8F5E9;
+    padding: 3rem 0 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 4px solid #FFC107;
+}
+
+    .footer a {
+        color: #A5D6A7;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .footer a:hover {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+
+/* 🌿 Misc Utilities
+   ======================================== */
+.text-primary-green {
+    color: #2E7D32 !important;
+}
+
+.text-dark-green {
+    color: #1B5E20 !important;
+}
+
+.text-gold {
+    color: #FFC107 !important;
+}
+
+.bg-soft-green {
+    background: #F0F7F0 !important;
+}
+
+.bg-gradient-green {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%) !important;
+}
+
+.rounded-leaf {
+    border-radius: 16px !important;
+}
+
+.shadow-leaf {
+    box-shadow: 0 4px 20px rgba(46, 125, 50, 0.12) !important;
+}
+
+    .shadow-leaf:hover {
+        box-shadow: 0 12px 40px rgba(46, 125, 50, 0.2) !important;
+    }
+
+/* 🌿 Responsive Adjustments
+   ======================================== */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+
+    .table thead th {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .table tbody td {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+
+    .footer {
+        padding: 2rem 0 1rem 0;
+    }
+}
+
+/* 🌿 Dark Mode Support (Optional)
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #1a2332;
+        color: #E8F0E8;
+    }
+
+    .card {
+        background: #1e2a3a;
+    }
+
+    .card-header {
+        background: #0d1b2a;
+    }
+
+    .form-control {
+        background: #1a2332;
+        border-color: #2d3a4a;
+        color: #E8F0E8;
+    }
+
+        .form-control:focus {
+            background: #1e2a3a;
+        }
+
+    .form-select {
+        background: #1a2332;
+        border-color: #2d3a4a;
+        color: #E8F0E8;
+    }
 }
