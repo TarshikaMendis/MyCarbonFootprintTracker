@@ -1,80 +1,311 @@
-@page
+﻿@page
 @model LoginModel
 
 @{
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
+<!-- 🌿 LeafMark - Modern Login Page -->
+<style>
+    /* LeafMark Login Theme */
+    .login-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #F0F7F0 0%, #E8F5E9 100%);
+    }
+
+    .login-card {
+        background: #FFFFFF;
+        border-radius: 24px;
+        padding: 3rem 2.5rem;
+        box-shadow: 0 20px 60px rgba(46, 125, 50, 0.15);
+        max-width: 500px;
+        width: 100%;
+        border: 1px solid rgba(46, 125, 50, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .login-card:hover {
+            box-shadow: 0 30px 80px rgba(46, 125, 50, 0.2);
+            transform: translateY(-5px);
+        }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .login-header .brand-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: leafFloat 3s ease-in-out infinite;
+        }
+
+    @@keyframes leafFloat {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    .login-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1B5E20;
+        margin-bottom: 0.3rem;
+    }
+
+    .login-header .subtitle {
+        color: #4A5568;
+        font-size: 0.95rem;
+    }
+
+        .login-header .subtitle a {
+            color: #2E7D32;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .login-header .subtitle a:hover {
+                text-decoration: underline;
             }
-        </section>
+
+    /* Form Fields */
+    .login-card .form-floating {
+        margin-bottom: 1.2rem;
+    }
+
+    .login-card .form-control {
+        border-radius: 12px;
+        border: 2px solid #E8F5E9;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #FAFDFA;
+        height: 56px;
+    }
+
+        .login-card .form-control:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
+            background: #FFFFFF;
+        }
+
+    .login-card .form-floating label {
+        color: #4A5568;
+        font-weight: 500;
+        padding: 0.8rem 1.2rem;
+    }
+
+    .login-card .form-floating .form-control:focus ~ label,
+    .login-card .form-floating .form-control:not(:placeholder-shown) ~ label {
+        color: #2E7D32;
+        font-weight: 600;
+    }
+
+    /* Remember Me Checkbox */
+    .login-card .checkbox {
+        margin: 1rem 0 1.5rem 0;
+    }
+
+        .login-card .checkbox .form-check-input {
+            border-radius: 6px;
+            border: 2px solid #A5D6A7;
+            width: 18px;
+            height: 18px;
+            margin-top: 0.1rem;
+            transition: all 0.3s ease;
+        }
+
+            .login-card .checkbox .form-check-input:checked {
+                background-color: #2E7D32;
+                border-color: #2E7D32;
+            }
+
+        .login-card .checkbox .form-check-label {
+            color: #4A5568;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+    /* Login Button */
+    .btn-login {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 12px;
+        padding: 0.9rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+    /* Links */
+    .login-links {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .login-links p {
+            margin-bottom: 0.5rem;
+        }
+
+        .login-links a {
+            color: #2E7D32;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+            .login-links a:hover {
+                color: #1B5E20;
+                text-decoration: underline;
+            }
+
+        .login-links .register-link {
+            display: inline-block;
+            background: #F0F7F0;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .login-links .register-link:hover {
+                background: #2E7D32;
+                color: #FFFFFF !important;
+                text-decoration: none;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+            }
+
+    /* Validation Summary */
+    .login-card .text-danger {
+        color: #D32F2F !important;
+    }
+
+    .login-card .alert-danger {
+        background: #FFEBEE;
+        border: 1px solid #EF9A9A;
+        border-radius: 12px;
+        color: #B71C1C;
+        padding: 1rem;
+    }
+
+    /* Responsive */
+    @@media (max-width: 576px) {
+        .login-card {
+            padding: 2rem 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .login-header .brand-icon {
+            font-size: 3rem;
+        }
+
+        .login-card .form-control {
+            height: 50px;
+        }
+
+        .btn-login {
+            font-size: 1rem;
+            padding: 0.8rem;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <!-- Login Header -->
+        <div class="login-header">
+            <span class="brand-icon">🍃</span>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">
+                Sign in to continue tracking your carbon footprint with <strong>LeafMark</strong>
+            </p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <!-- Email Field -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username"
+                       aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">📧 Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password"
+                       aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">🔒 Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="checkbox">
+                <label asp-for="Input.RememberMe" class="form-check-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+
+            <!-- Login Button -->
+            <button id="login-submit" type="submit" class="btn btn-login">
+                🌿 Log In
+            </button>
+
+            <!-- Links -->
+            <div class="login-links">
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">
+                        🔑 Forgot your password?
+                    </a>
+                </p>
+                <p>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="register-link">
+                        🌱 New here? Create an account
+                    </a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">
+                        📧 Resend email confirmation
+                    </a>
+                </p>
+            </div>
+        </form>
     </div>
 </div>
 
