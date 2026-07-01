@@ -1,6 +1,306 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    /* 🌿 LeafMark Privacy Page Theme */
+    .privacy-container {
+        background: #F0F7F0;
+        padding: 2rem 0;
+        min-height: 70vh;
+    }
+
+    .privacy-card {
+        border: none;
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        background: #FFFFFF;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+
+        .privacy-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
+
+        .privacy-card .card-header {
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+            padding: 2rem 2.5rem;
+            border: none;
+            border-radius: 24px 24px 0 0;
+            color: #FFFFFF;
+        }
+
+            .privacy-card .card-header h1 {
+                color: #FFFFFF;
+                font-weight: 700;
+                font-size: 2.5rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .privacy-card .card-header p {
+                color: #C8E6C9;
+                font-size: 1.1rem;
+                margin-bottom: 0;
+            }
+
+        .privacy-card .card-body {
+            padding: 2.5rem;
+        }
+
+        .privacy-card .last-updated {
+            background: #E8F5E9;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            color: #1B5E20;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #FFC107;
+        }
+
+        .privacy-card .section-title {
+            color: #1B5E20;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E8F5E9;
+        }
+
+            .privacy-card .section-title:first-of-type {
+                margin-top: 0;
+            }
+
+            .privacy-card .section-title i {
+                color: #2E7D32;
+                margin-right: 0.5rem;
+            }
+
+        .privacy-card p {
+            color: #2D3748;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-card ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+            .privacy-card ul li {
+                color: #2D3748;
+                font-size: 1rem;
+                line-height: 1.8;
+                margin-bottom: 0.5rem;
+            }
+
+                .privacy-card ul li strong {
+                    color: #1B5E20;
+                }
+
+        .privacy-card .highlight-box {
+            background: #F0F7F0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #2E7D32;
+            margin: 1.5rem 0;
+        }
+
+            .privacy-card .highlight-box p {
+                margin-bottom: 0;
+                color: #2D3748;
+            }
+
+            .privacy-card .highlight-box i {
+                color: #2E7D32;
+                font-size: 1.2rem;
+                margin-right: 0.5rem;
+            }
+
+    /* Back Button */
+    .btn-back {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 50px;
+        padding: 0.7rem 2rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+            text-decoration: none;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .privacy-card .card-header {
+            padding: 1.5rem;
+        }
+
+            .privacy-card .card-header h1 {
+                font-size: 1.8rem;
+            }
+
+        .privacy-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .privacy-card .section-title {
+            font-size: 1.1rem;
+        }
+
+        .privacy-card p, .privacy-card ul li {
+            font-size: 0.9rem;
+        }
+
+        .btn-back {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="privacy-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="privacy-card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <h1>🔒 Privacy Policy</h1>
+                        <p>Your privacy matters to us at 🍃 LeafMark</p>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Last Updated -->
+                        <div class="last-updated">
+                            <i class="fas fa-clock" style="color: #FFC107;"></i>
+                            Last Updated: @DateTime.Now.ToString("MMMM dd, yyyy")
+                        </div>
+
+                        <!-- Introduction -->
+                        <h4 class="section-title"><i class="fas fa-info-circle"></i> Introduction</h4>
+                        <p>
+                            Welcome to <strong>🍃 LeafMark</strong> ("we", "our", "us"). We are committed to protecting your
+                            privacy and ensuring that your personal information is handled in a safe and responsible manner.
+                            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when
+                            you use our web application.
+                        </p>
+
+                        <!-- Information We Collect -->
+                        <h4 class="section-title"><i class="fas fa-database"></i> Information We Collect</h4>
+                        <p>We collect the following types of information to provide and improve our services:</p>
+                        <ul>
+                            <li><strong>Personal Information:</strong> Email address, username, and password (encrypted) when you register.</li>
+                            <li><strong>Activity Data:</strong> Carbon footprint activities you log, including activity type, amount, unit, and date.</li>
+                            <li><strong>Emission Data:</strong> Calculated CO₂ emissions based on your activities.</li>
+                            <li><strong>Reward Data:</strong> Points, badges, and achievements you earn.</li>
+                            <li><strong>Usage Data:</strong> Information about how you interact with our platform.</li>
+                        </ul>
+
+                        <!-- How We Use Your Information -->
+                        <h4 class="section-title"><i class="fas fa-cogs"></i> How We Use Your Information</h4>
+                        <p>We use the information we collect to:</p>
+                        <ul>
+                            <li><strong>Provide and maintain</strong> the LeafMark service</li>
+                            <li><strong>Calculate</strong> your personal carbon footprint and emissions</li>
+                            <li><strong>Generate personalized</strong> AI-driven recommendations to help you reduce your carbon footprint</li>
+                            <li><strong>Track and reward</strong> your progress with points and badges</li>
+                            <li><strong>Improve</strong> our platform and user experience</li>
+                            <li><strong>Communicate</strong> with you about updates and tips</li>
+                        </ul>
+
+                        <!-- Data Security -->
+                        <h4 class="section-title"><i class="fas fa-shield-alt"></i> Data Security</h4>
+                        <div class="highlight-box">
+                            <p>
+                                <i class="fas fa-lock"></i> Your data is stored securely in a SQL Server database with
+                                encryption. We use ASP.NET Core Identity to ensure your password is securely hashed
+                                and protected. We do not share your personal information with third parties.
+                            </p>
+                        </div>
+                        <ul>
+                            <li><strong>Encryption:</strong> Your password is encrypted using industry-standard hashing algorithms.</li>
+                            <li><strong>Access Control:</strong> Only you and authorized administrators can access your data.</li>
+                            <li><strong>Data Isolation:</strong> Your data is isolated by your unique user ID.</li>
+                        </ul>
+
+                        <!-- Cookies -->
+                        <h4 class="section-title"><i class="fas fa-cookie-bite"></i> Cookies</h4>
+                        <p>
+                            We use essential cookies to manage your session and keep you logged in. These cookies are
+                            necessary for the basic functionality of the application. We do not use tracking cookies
+                            or share your data with third-party advertisers.
+                        </p>
+
+                        <!-- Your Rights -->
+                        <h4 class="section-title"><i class="fas fa-user-shield"></i> Your Rights</h4>
+                        <p>You have the right to:</p>
+                        <ul>
+                            <li><strong>Access</strong> your personal data at any time</li>
+                            <li><strong>Update</strong> or correct your information</li>
+                            <li><strong>Delete</strong> your account and associated data</li>
+                            <li><strong>Opt-out</strong> of any future communications</li>
+                            <li><strong>Export</strong> your data in a readable format</li>
+                        </ul>
+
+                        <!-- Children's Privacy -->
+                        <h4 class="section-title"><i class="fas fa-child"></i> Children's Privacy</h4>
+                        <p>
+                            LeafMark is not intended for children under the age of 13. We do not knowingly collect
+                            personal information from children. If you are a parent or guardian and believe your child
+                            has provided us with personal information, please contact us.
+                        </p>
+
+                        <!-- Changes to Policy -->
+                        <h4 class="section-title"><i class="fas fa-edit"></i> Changes to This Policy</h4>
+                        <p>
+                            We may update this Privacy Policy from time to time. We will notify you of any changes
+                            by posting the new policy on this page with an updated date. We encourage you to review
+                            this policy periodically.
+                        </p>
+
+                        <!-- Contact Us -->
+                        <h4 class="section-title"><i class="fas fa-envelope"></i> Contact Us</h4>
+                        <div class="highlight-box" style="border-left-color: #FFC107;">
+                            <p>
+                                <i class="fas fa-envelope" style="color: #FFC107;"></i>
+                                <strong>Email:</strong> <a href="mailto:support@leafmark.com" style="color: #2E7D32;">support@leafmark.com</a>
+                            </p>
+                            <p style="margin-top: 0.5rem;">
+                                <i class="fas fa-phone" style="color: #FFC107;"></i>
+                                <strong>Phone:</strong> +1 (234) 567-890
+                            </p>
+                            <p style="margin-top: 0.5rem; margin-bottom: 0;">
+                                <i class="fas fa-map-marker-alt" style="color: #FFC107;"></i>
+                                <strong>Address:</strong> Green Planet, Earth 🌍
+                            </p>
+                        </div>
+
+                        <!-- Back Button -->
+                        <div class="text-center mt-4">
+                            <a asp-controller="Home" asp-action="Index" class="btn-back">
+                                🌿 Back to Home
+                            </a>
+                            <a asp-controller="Dashboard" asp-action="Index" class="btn-back" style="background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%); margin-left: 0.5rem;">
+                                📊 Go to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
