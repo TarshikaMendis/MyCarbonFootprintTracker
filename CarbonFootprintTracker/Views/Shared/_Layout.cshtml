@@ -23,32 +23,32 @@
             --white: #FFFFFF;
         }
 
-        /*  Body and HTML reset for footer */
+        /* Body and HTML reset for footer */
         html {
             position: relative;
             min-height: 100%;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
             background: #F0F7F0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /*  Main wrapper - pushes footer to bottom */
+        /* Main wrapper - pushes footer to bottom */
         .main-wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /*  Content wrapper - grows to fill space */
+        /* Content wrapper - grows to fill space */
         .content-wrapper {
             flex: 1 0 auto;
-            padding-bottom: 1rem;
+            padding-bottom: 0.5rem;
         }
 
         /* Navbar Styling */
@@ -77,29 +77,30 @@
                 font-weight: 600;
             }
 
-        /*  Compact Footer Styling */
+        /* 🌿 FIX: Compact Footer Styling - No Overlap */
         .footer {
             background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
             color: #E8F5E9;
-            padding: 1.5rem 0 0.8rem 0;
-            margin-top: 2rem;
-            border-top: 4px solid var(--accent);
+            padding: 1.2rem 0 0.5rem 0;
+            margin-top: 1.5rem;
+            border-top: 3px solid var(--accent);
             flex-shrink: 0;
+            width: 100%;
         }
 
-            .footer h5 {
+            .footer h6 {
                 color: #FFFFFF;
                 font-weight: 600;
-                font-size: 1rem;
-                margin-bottom: 0.8rem;
+                font-size: 0.85rem;
+                margin-bottom: 0.4rem;
             }
 
-            .footer p, .footer li {
-                font-size: 0.85rem;
+            .footer p, .footer li, .footer a {
+                font-size: 0.78rem;
+                color: #A5D6A7;
             }
 
             .footer a {
-                color: #A5D6A7;
                 text-decoration: none;
                 transition: all 0.3s ease;
             }
@@ -111,28 +112,31 @@
 
             .footer .social-icons a {
                 display: inline-block;
-                width: 34px;
-                height: 34px;
-                background: rgba(255,255,255,0.1);
+                width: 28px;
+                height: 28px;
+                background: rgba(255, 255, 255, 0.1);
                 border-radius: 50%;
                 text-align: center;
-                line-height: 34px;
-                margin-right: 6px;
-                font-size: 15px;
+                line-height: 28px;
+                margin-right: 4px;
+                font-size: 12px;
                 transition: all 0.3s ease;
+                color: #A5D6A7;
             }
 
                 .footer .social-icons a:hover {
                     background: var(--accent);
                     color: var(--primary-dark);
-                    transform: translateY(-3px);
+                    transform: translateY(-2px);
                 }
 
             .footer .footer-bottom {
-                border-top: 1px solid rgba(255,255,255,0.1);
-                padding-top: 0.8rem;
-                margin-top: 0.8rem;
-                font-size: 0.8rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 0.5rem;
+                margin-top: 0.5rem;
+                font-size: 0.65rem;
+                text-align: center;
+                color: #A5D6A7;
             }
 
             .footer .footer-links {
@@ -142,17 +146,8 @@
             }
 
                 .footer .footer-links li {
-                    margin-bottom: 4px;
+                    margin-bottom: 2px;
                 }
-
-                    .footer .footer-links li a {
-                        color: #A5D6A7;
-                        font-size: 0.85rem;
-                    }
-
-                        .footer .footer-links li a:hover {
-                            color: #FFFFFF;
-                        }
 
             .footer .footer-contact {
                 padding-left: 0;
@@ -161,53 +156,72 @@
             }
 
                 .footer .footer-contact li {
-                    margin-bottom: 4px;
-                    color: #A5D6A7;
-                    font-size: 0.85rem;
+                    margin-bottom: 2px;
                 }
 
                 .footer .footer-contact i {
                     color: var(--accent);
-                    margin-right: 8px;
-                    width: 18px;
+                    margin-right: 6px;
+                    width: 16px;
                 }
 
-            .footer .text-light-50 {
-                color: #A5D6A7 !important;
-                font-size: 0.9rem;
+            .footer .brand-text {
+                font-weight: 700;
+                font-size: 1.1rem;
+                color: #FFFFFF;
             }
 
-        /* ✅ Responsive Footer */
+            .footer .tagline {
+                font-style: italic;
+                font-size: 0.75rem;
+                color: #A5D6A7;
+            }
+
+        /* Responsive Footer */
         @@media (max-width: 768px) {
             .footer {
-                padding: 1rem 0 0.5rem 0;
+                padding: 0.8rem 0 0.3rem 0 !important;
             }
 
-                .footer h5 {
-                    font-size: 0.9rem;
+                .footer h6 {
+                    font-size: 0.75rem !important;
                 }
 
-                .footer p, .footer li, .footer .footer-links li a, .footer .footer-contact li {
-                    font-size: 0.75rem;
+                .footer p, .footer li, .footer a {
+                    font-size: 0.7rem !important;
                 }
 
                 .footer .social-icons a {
-                    width: 28px;
-                    height: 28px;
-                    line-height: 28px;
-                    font-size: 12px;
-                    margin-right: 4px;
+                    width: 24px !important;
+                    height: 24px !important;
+                    line-height: 24px !important;
+                    font-size: 10px !important;
                 }
 
                 .footer .footer-bottom {
-                    font-size: 0.65rem;
-                    padding-top: 0.5rem;
-                    margin-top: 0.5rem;
+                    font-size: 0.55rem !important;
                 }
 
-                .footer .col-lg-3, .footer .col-lg-4 {
-                    margin-bottom: 0.5rem !important;
+                .footer .col-6, .footer .col-md-3 {
+                    margin-bottom: 0.3rem !important;
                 }
+
+                .footer .brand-text {
+                    font-size: 0.9rem !important;
+                }
+        }
+
+        /* Chart container - prevent overflow */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+
+        @@media (max-width: 768px) {
+            .chart-container {
+                height: 150px;
+            }
         }
     </style>
 
@@ -221,7 +235,6 @@
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
-                    <!-- 🍃 LeafMark Brand -->
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                         🍃 LeafMark
                     </a>
@@ -271,7 +284,7 @@
         <!-- Main Content -->
         <div class="content-wrapper">
             <div class="container">
-                <main role="main" class="pb-3">
+                <main role="main" class="pb-2">
                     @RenderBody()
                 </main>
             </div>
@@ -282,38 +295,27 @@
             <div class="container">
                 <div class="row">
                     <!-- Brand -->
-                    <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
-                        <h5>🍃 LeafMark</h5>
-                        <p class="text-light-50">
-                            <em>"Leave a positive mark on the planet."</em>
-                        </p>
-                        <p style="font-size: 0.8rem; color: #A5D6A7;">
-                            Track your carbon footprint, earn rewards, and make sustainable choices for a greener future.
+                    <div class="col-md-3 col-6 mb-1">
+                        <div class="brand-text">🍃 LeafMark</div>
+                        <div class="tagline">"Leave a positive mark on the planet."</div>
+                        <p style="font-size: 0.7rem; color: #A5D6A7; margin-top: 4px; margin-bottom: 0;">
+                            Track your carbon footprint.
                         </p>
                     </div>
 
                     <!-- Contact -->
-                    <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
-                        <h5>Contact Us</h5>
+                    <div class="col-md-3 col-6 mb-1">
+                        <h6>Contact</h6>
                         <ul class="footer-contact">
-                            <li>
-                                <i class="fas fa-envelope"></i>
-                                <a href="mailto:support@leafmark.com">support@leafmark.com</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-phone"></i>
-                                <a href="tel:+1234567890">+1 (234) 567-890</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span style="color: #A5D6A7;">Green Planet, Earth 🌍</span>
-                            </li>
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:support@leafmark.com">support@leafmark.com</a></li>
+                            <li><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                            <li><i class="fas fa-map-marker-alt"></i> <span style="color: #A5D6A7;">Earth 🌍</span></li>
                         </ul>
                     </div>
 
                     <!-- Quick Links -->
-                    <div class="col-lg-2 col-md-6 mb-2 mb-lg-0">
-                        <h5>Quick Links</h5>
+                    <div class="col-md-3 col-6 mb-1">
+                        <h6>Quick Links</h6>
                         <ul class="footer-links">
                             <li><a asp-controller="Home" asp-action="Index">🏠 Home</a></li>
                             @if (User.Identity.IsAuthenticated)
@@ -326,29 +328,23 @@
                     </div>
 
                     <!-- Social -->
-                    <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
-                        <h5>Follow Us</h5>
+                    <div class="col-md-3 col-6 mb-1">
+                        <h6>Follow Us</h6>
                         <div class="social-icons">
                             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <p style="font-size: 0.75rem; color: #A5D6A7; margin-top: 8px;">
-                            <i class="fas fa-leaf" style="color: var(--accent);"></i>
-                            Join our green community!
+                        <p style="font-size: 0.65rem; color: #A5D6A7; margin-top: 4px; margin-bottom: 0;">
+                            <i class="fas fa-leaf" style="color: var(--accent);"></i> Join our green community!
                         </p>
                     </div>
                 </div>
 
                 <!-- Footer Bottom -->
-                <div class="footer-bottom text-center">
-                    <p class="mb-0">
-                        &copy; @DateTime.Now.Year - 🍃 LeafMark |
-                        <em>"Leave a positive mark on the planet."</em> |
-                        All Rights Reserved
-                    </p>
+                <div class="footer-bottom">
+                    &copy; @DateTime.Now.Year - 🍃 LeafMark | All Rights Reserved
                 </div>
             </div>
         </footer>
