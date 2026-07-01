@@ -23,85 +23,191 @@
             --white: #FFFFFF;
         }
 
+        /*  Body and HTML reset for footer */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #F0F7F0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /*  Main wrapper - pushes footer to bottom */
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /*  Content wrapper - grows to fill space */
+        .content-wrapper {
+            flex: 1 0 auto;
+            padding-bottom: 1rem;
+        }
+
         /* Navbar Styling */
         .navbar-brand {
             font-weight: 700;
             color: var(--primary) !important;
             font-size: 1.5rem;
         }
-        .navbar-brand:hover {
-            color: var(--primary-dark) !important;
-        }
+
+            .navbar-brand:hover {
+                color: var(--primary-dark) !important;
+            }
 
         .nav-link {
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        .nav-link:hover {
-            color: var(--primary) !important;
-            transform: translateY(-2px);
-        }
 
-        .nav-link.active {
-            color: var(--primary) !important;
-            font-weight: 600;
-        }
+            .nav-link:hover {
+                color: var(--primary) !important;
+                transform: translateY(-2px);
+            }
 
-        /* Footer Styling */
+            .nav-link.active {
+                color: var(--primary) !important;
+                font-weight: 600;
+            }
+
+        /*  Compact Footer Styling */
         .footer {
             background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
             color: #E8F5E9;
-            padding: 3rem 0 1.5rem 0;
-            margin-top: 3rem;
+            padding: 1.5rem 0 0.8rem 0;
+            margin-top: 2rem;
             border-top: 4px solid var(--accent);
+            flex-shrink: 0;
         }
-        .footer h5 {
-            color: #FFFFFF;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-        }
-        .footer a {
-            color: #A5D6A7;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .footer a:hover {
-            color: #FFFFFF;
-            text-decoration: underline;
-            transform: translateX(5px);
-        }
-        .footer .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-        .footer .social-icons a:hover {
-            background: var(--accent);
-            color: var(--primary-dark);
-            transform: translateY(-5px);
-        }
-        .footer .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1.5rem;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-        .footer .footer-links li {
-            list-style: none;
-            margin-bottom: 8px;
-        }
-        .footer .footer-links li a {
-            color: #A5D6A7;
-        }
-        .footer .footer-links li a:hover {
-            color: #FFFFFF;
+
+            .footer h5 {
+                color: #FFFFFF;
+                font-weight: 600;
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .footer p, .footer li {
+                font-size: 0.85rem;
+            }
+
+            .footer a {
+                color: #A5D6A7;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+                .footer a:hover {
+                    color: #FFFFFF;
+                    text-decoration: underline;
+                }
+
+            .footer .social-icons a {
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                background: rgba(255,255,255,0.1);
+                border-radius: 50%;
+                text-align: center;
+                line-height: 34px;
+                margin-right: 6px;
+                font-size: 15px;
+                transition: all 0.3s ease;
+            }
+
+                .footer .social-icons a:hover {
+                    background: var(--accent);
+                    color: var(--primary-dark);
+                    transform: translateY(-3px);
+                }
+
+            .footer .footer-bottom {
+                border-top: 1px solid rgba(255,255,255,0.1);
+                padding-top: 0.8rem;
+                margin-top: 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .footer .footer-links {
+                padding-left: 0;
+                margin-bottom: 0;
+                list-style: none;
+            }
+
+                .footer .footer-links li {
+                    margin-bottom: 4px;
+                }
+
+                    .footer .footer-links li a {
+                        color: #A5D6A7;
+                        font-size: 0.85rem;
+                    }
+
+                        .footer .footer-links li a:hover {
+                            color: #FFFFFF;
+                        }
+
+            .footer .footer-contact {
+                padding-left: 0;
+                margin-bottom: 0;
+                list-style: none;
+            }
+
+                .footer .footer-contact li {
+                    margin-bottom: 4px;
+                    color: #A5D6A7;
+                    font-size: 0.85rem;
+                }
+
+                .footer .footer-contact i {
+                    color: var(--accent);
+                    margin-right: 8px;
+                    width: 18px;
+                }
+
+            .footer .text-light-50 {
+                color: #A5D6A7 !important;
+                font-size: 0.9rem;
+            }
+
+        /* ✅ Responsive Footer */
+        @@media (max-width: 768px) {
+            .footer {
+                padding: 1rem 0 0.5rem 0;
+            }
+
+                .footer h5 {
+                    font-size: 0.9rem;
+                }
+
+                .footer p, .footer li, .footer .footer-links li a, .footer .footer-contact li {
+                    font-size: 0.75rem;
+                }
+
+                .footer .social-icons a {
+                    width: 28px;
+                    height: 28px;
+                    line-height: 28px;
+                    font-size: 12px;
+                    margin-right: 4px;
+                }
+
+                .footer .footer-bottom {
+                    font-size: 0.65rem;
+                    padding-top: 0.5rem;
+                    margin-top: 0.5rem;
+                }
+
+                .footer .col-lg-3, .footer .col-lg-4 {
+                    margin-bottom: 0.5rem !important;
+                }
         }
     </style>
 
@@ -109,122 +215,144 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍃</text></svg>" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <!-- 🍃 LeafMark Brand -->
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    🍃 LeafMark
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">🏠 Home</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @if (User.HasClaim("IsAdmin", "true") || User.IsInRole("Admin"))
+
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <!-- 🍃 LeafMark Brand -->
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        🍃 LeafMark
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">🏠 Home</a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
                             {
+                                @if (User.HasClaim("IsAdmin", "true") || User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">🔐 Admin Panel</a>
+                                    </li>
+                                }
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">🔐 Admin Panel</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">📈 Reports</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Rewards" asp-action="Index">🏆 Rewards</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Index">📋 My Activities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Create">➕ Add Activity</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">🔒 Privacy</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">📈 Reports</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Rewards" asp-action="Index">🏆 Rewards</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Index">📋 My Activities</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Create">➕ Add Activity</a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">🔒 Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <!-- 🌿 LeafMark - Beautiful Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <!-- About Section -->
-                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                    <h5>🍃 LeafMark</h5>
-                    <p class="text-light-50" style="color: #A5D6A7;">
-                        <em>"Leave a positive mark on the planet."</em>
-                    </p>
-                    
-                </div>
-
-                <!-- Contact & Social -->
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h5>Contact Us</h5>
-                    <ul class="footer-links">
-                        <li>
-                            <i class="fas fa-envelope" style="color: var(--accent);"></i>
-                            <a href="mailto:support@leafmark.com">support@leafmark.com</a>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone" style="color: var(--accent);"></i>
-                            <a href="tel:+1234567890">+1 (234) 567-890</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-
-                <!-- Social Media & Newsletter -->
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h5>Follow Us</h5>
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </ul>
+                        <partial name="_LoginPartial" />
                     </div>
-                    <p style="font-size: 0.85rem; color: #A5D6A7; margin-top: 15px;">
-                        <i class="fas fa-leaf" style="color: var(--accent);"></i>
-                        Join our green community!
-                    </p>
                 </div>
-            </div>
+            </nav>
+        </header>
 
-            <!-- Footer Bottom -->
-            <div class="footer-bottom text-center">
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+
+        <!-- 🌿 LeafMark - Compact Footer -->
+        <footer class="footer">
+            <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <p class="mb-0">
-                            &copy; @DateTime.Now.Year - 🍃 LeafMark |
-                            <em>"Leave a positive mark on the planet."</em> |
-                            All Rights Reserved
+                    <!-- Brand -->
+                    <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
+                        <h5>🍃 LeafMark</h5>
+                        <p class="text-light-50">
+                            <em>"Leave a positive mark on the planet."</em>
+                        </p>
+                        <p style="font-size: 0.8rem; color: #A5D6A7;">
+                            Track your carbon footprint, earn rewards, and make sustainable choices for a greener future.
+                        </p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+                        <h5>Contact Us</h5>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:support@leafmark.com">support@leafmark.com</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+1234567890">+1 (234) 567-890</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span style="color: #A5D6A7;">Green Planet, Earth 🌍</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-lg-2 col-md-6 mb-2 mb-lg-0">
+                        <h5>Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Home" asp-action="Index">🏠 Home</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a></li>
+                                <li><a asp-controller="Rewards" asp-action="Index">🏆 Rewards</a></li>
+                            }
+                            <li><a asp-controller="Home" asp-action="Privacy">🔒 Privacy</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Social -->
+                    <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+                        <h5>Follow Us</h5>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <p style="font-size: 0.75rem; color: #A5D6A7; margin-top: 8px;">
+                            <i class="fas fa-leaf" style="color: var(--accent);"></i>
+                            Join our green community!
                         </p>
                     </div>
                 </div>
+
+                <!-- Footer Bottom -->
+                <div class="footer-bottom text-center">
+                    <p class="mb-0">
+                        &copy; @DateTime.Now.Year - 🍃 LeafMark |
+                        <em>"Leave a positive mark on the planet."</em> |
+                        All Rights Reserved
+                    </p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
