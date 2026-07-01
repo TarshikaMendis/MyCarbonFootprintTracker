@@ -38,7 +38,7 @@ body {
     flex-direction: column !important;
 }
 
-/* ✅ FIX: Main wrapper - FORCE full height */
+/*  Main wrapper - FORCE full height */
 .main-wrapper {
     display: flex !important;
     flex-direction: column !important;
@@ -47,13 +47,13 @@ body {
     width: 100% !important;
 }
 
-/* ✅ FIX: Content grows to fill space */
+/*  Content grows to fill space */
 .content-wrapper {
     flex: 1 0 auto !important;
     padding-bottom: 0 !important;
 }
 
-    /* ✅ FIX: Container inside content */
+    /*  Container inside content */
     .content-wrapper .container {
         padding-bottom: 0.5rem !important;
     }
