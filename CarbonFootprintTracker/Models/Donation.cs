@@ -9,40 +9,34 @@ namespace CarbonFootprintTracker.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Full Name is required")]
         [Display(Name = "Full Name")]
         public string DonorName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         [Display(Name = "Email Address")]
         public string DonorEmail { get; set; }
 
-        [Required]
-        [Range(1, 100000)]
+        [Required(ErrorMessage = "Amount is required")]
+        [Range(1, 100000, ErrorMessage = "Amount must be between $1 and $100,000")]
         [Display(Name = "Donation Amount ($)")]
         public decimal Amount { get; set; }
 
-        [Display(Name = "Card Number")]
-        public string CardNumber { get; set; }
-
-        [Display(Name = "Expiry Date")]
-        public string CardExpiry { get; set; }
-
-        [Display(Name = "CVV")]
-        public string CardCVV { get; set; }
-
-        public string TransactionId { get; set; }
-
-        public string Message { get; set; }
+        // ✅ MAKE THESE OPTIONAL (NOT REQUIRED)
+        public string? CardNumber { get; set; }
+        public string? CardExpiry { get; set; }
+        public string? CardCVV { get; set; }
+        public string? TransactionId { get; set; }
+        public string? Message { get; set; }
 
         public DateTime DonationDate { get; set; } = DateTime.Now;
 
-        public string Status { get; set; } = "Completed";
+        public string? Status { get; set; } = "Completed";
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
     }
 }

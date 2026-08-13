@@ -23,36 +23,35 @@
         margin: 0 auto;
     }
 
-    .donate-card:hover {
-        box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
-    }
+        .donate-card:hover {
+            box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+        }
 
-    .donate-card .card-header {
-        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
-        padding: 2rem;
-        border: none;
-        border-radius: 24px 24px 0 0;
-        color: #FFFFFF;
-        text-align: center;
-    }
+        .donate-card .card-header {
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+            padding: 2rem;
+            border: none;
+            border-radius: 24px 24px 0 0;
+            color: #FFFFFF;
+            text-align: center;
+        }
 
-    .donate-card .card-header h1 {
-        color: #FFFFFF;
-        font-weight: 700;
-        font-size: 2.2rem;
-        margin-bottom: 0.3rem;
-    }
+            .donate-card .card-header h1 {
+                color: #FFFFFF;
+                font-weight: 700;
+                font-size: 2.2rem;
+                margin-bottom: 0.3rem;
+            }
 
-    .donate-card .card-header p {
-        color: #C8E6C9;
-        font-size: 1.1rem;
-    }
+            .donate-card .card-header p {
+                color: #C8E6C9;
+                font-size: 1.1rem;
+            }
 
-    .donate-card .card-body {
-        padding: 2.5rem;
-    }
+        .donate-card .card-body {
+            padding: 2.5rem;
+        }
 
-    /* Impact Stats */
     .impact-stats {
         display: flex;
         justify-content: space-around;
@@ -70,23 +69,22 @@
         min-width: 100px;
     }
 
-    .impact-stat .stat-icon {
-        font-size: 2.5rem;
-        display: block;
-    }
+        .impact-stat .stat-icon {
+            font-size: 2.5rem;
+            display: block;
+        }
 
-    .impact-stat .stat-number {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #1B5E20;
-    }
+        .impact-stat .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1B5E20;
+        }
 
-    .impact-stat .stat-label {
-        font-size: 0.85rem;
-        color: #4A5568;
-    }
+        .impact-stat .stat-label {
+            font-size: 0.85rem;
+            color: #4A5568;
+        }
 
-    /* Causes Section */
     .causes-section {
         display: flex;
         justify-content: space-around;
@@ -106,23 +104,23 @@
         padding: 0.5rem;
     }
 
-    .cause-item .cause-icon {
-        font-size: 2.5rem;
-        display: block;
-    }
+        .cause-item .cause-icon {
+            font-size: 2.5rem;
+            display: block;
+        }
 
-    .cause-item .cause-name {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #1B5E20;
-        margin-top: 0.3rem;
-    }
+        .cause-item .cause-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1B5E20;
+            margin-top: 0.3rem;
+        }
 
-    /* Form Styling */
     .form-label-custom {
         font-weight: 600;
         color: #1B5E20;
         font-size: 0.95rem;
+        margin-bottom: 0.3rem;
     }
 
     .form-control-custom {
@@ -135,10 +133,28 @@
         width: 100%;
     }
 
-    .form-control-custom:focus {
-        border-color: #2E7D32;
-        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
-        outline: none;
+        .form-control-custom:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+            outline: none;
+        }
+
+        .form-control-custom::placeholder {
+            color: #A5D6A7;
+            font-size: 0.9rem;
+        }
+
+    .card-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: #A5D6A7;
+    }
+
+    .input-group-custom {
+        position: relative;
     }
 
     .btn-donate {
@@ -155,16 +171,16 @@
         cursor: pointer;
     }
 
-    .btn-donate:hover {
-        background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
-    }
+        .btn-donate:hover {
+            background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+        }
 
-    .btn-donate:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
+        .btn-donate:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 
     .card-row {
         display: flex;
@@ -172,30 +188,60 @@
         flex-wrap: wrap;
     }
 
-    .card-row .form-group {
-        flex: 1;
-        min-width: 120px;
+        .card-row .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+
+    .validation-summary {
+        border-radius: 12px;
+        background: #FFEBEE;
+        border: 1px solid #EF9A9A;
+        color: #B71C1C;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
     }
 
-    /* Responsive */
+        .validation-summary ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+    .secure-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #E8F5E9;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        color: #1B5E20;
+        margin-top: 0.5rem;
+    }
+
     @@media (max-width: 768px) {
         .donate-card .card-header h1 {
             font-size: 1.6rem;
         }
+
         .donate-card .card-body {
             padding: 1.5rem;
         }
+
         .impact-stats {
             flex-direction: column;
             align-items: center;
         }
+
         .causes-section {
             flex-direction: column;
             align-items: center;
         }
+
         .card-row {
             flex-direction: column;
         }
+
         .btn-donate {
             font-size: 1rem;
             padding: 0.8rem 2rem;
@@ -206,7 +252,6 @@
 <div class="donate-container">
     <div class="container">
         <div class="donate-card">
-            <!-- Header -->
             <div class="card-header">
                 <h1>🌍 Make a Difference</h1>
                 <p>Your contribution helps us plant trees, recycle waste, and educate communities</p>
@@ -253,59 +298,78 @@
                     </div>
                 </div>
 
+                <!-- Validation Summary -->
+                <div asp-validation-summary="All" class="validation-summary"></div>
+
                 <!-- Donation Form -->
                 <form asp-action="Index" method="post">
-                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-
+                    <!-- Personal Information -->
+                    <h5 style="color: #1B5E20; font-weight: 700; margin-bottom: 1rem;">👤 Personal Information</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="DonorName" class="form-label-custom">👤 Full Name</label>
+                            <label asp-for="DonorName" class="form-label-custom">Full Name</label>
                             <input asp-for="DonorName" class="form-control-custom" placeholder="Enter your full name" required />
                             <span asp-validation-for="DonorName" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="DonorEmail" class="form-label-custom">📧 Email Address</label>
+                            <label asp-for="DonorEmail" class="form-label-custom">Email Address</label>
                             <input asp-for="DonorEmail" class="form-control-custom" type="email" placeholder="Enter your email" required />
                             <span asp-validation-for="DonorEmail" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                     </div>
 
+                    <!-- Donation Amount -->
+                    <h5 style="color: #1B5E20; font-weight: 700; margin-bottom: 1rem;">💰 Donation Amount</h5>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label asp-for="Amount" class="form-label-custom">💰 Donation Amount ($)</label>
-                            <input asp-for="Amount" class="form-control-custom" type="number" step="1" min="1" placeholder="Enter amount" required />
+                            <label asp-for="Amount" class="form-label-custom">Amount ($)</label>
+                            <input asp-for="Amount" class="form-control-custom" type="number" step="1" min="1" placeholder="Enter amount (e.g., 50)" required />
                             <span asp-validation-for="Amount" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                     </div>
 
+                    <!-- Payment Details -->
+                    <h5 style="color: #1B5E20; font-weight: 700; margin-bottom: 1rem;">💳 Payment Details</h5>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label class="form-label-custom">💳 Card Details</label>
-                            <input asp-for="CardNumber" class="form-control-custom" placeholder="1234-5678-9012-3456" required />
+                            <label class="form-label-custom">Card Number</label>
+                            <div class="input-group-custom">
+                                <input asp-for="CardNumber" class="form-control-custom" placeholder="1234 5678 9012 3456" required />
+                                <span class="card-icon">💳</span>
+                            </div>
                             <span asp-validation-for="CardNumber" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="CardExpiry" class="form-label-custom">📅 Expiry Date</label>
+                            <label asp-for="CardExpiry" class="form-label-custom">Expiry Date</label>
                             <input asp-for="CardExpiry" class="form-control-custom" placeholder="MM/YY" required />
                             <span asp-validation-for="CardExpiry" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="CardCVV" class="form-label-custom">🔒 CVV</label>
+                            <label asp-for="CardCVV" class="form-label-custom">CVV</label>
                             <input asp-for="CardCVV" class="form-control-custom" type="password" maxlength="4" placeholder="***" required />
                             <span asp-validation-for="CardCVV" class="text-danger" style="font-size: 0.85rem;"></span>
                         </div>
                     </div>
 
+                    <!-- Optional Message -->
+                    <h5 style="color: #1B5E20; font-weight: 700; margin-bottom: 1rem;">💚 Message (Optional)</h5>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label asp-for="Message" class="form-label-custom">💚 Message (Optional)</label>
                             <textarea asp-for="Message" class="form-control-custom" rows="2" placeholder="Leave a message of support..."></textarea>
                         </div>
                     </div>
 
+                    <!-- Secure Badge -->
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <span class="secure-badge">
+                            🔒 Secure Payment · SSL Encrypted
+                        </span>
+                    </div>
+
+                    <!-- Submit Button -->
                     <button type="submit" class="btn-donate">
                         🌱 Donate Now
                     </button>
