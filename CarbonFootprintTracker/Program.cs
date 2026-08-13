@@ -29,6 +29,9 @@ builder.Services.AddRazorPages();
 // Add Gemini Service
 builder.Services.AddScoped<GeminiService>();
 
+// Add Impact Service
+builder.Services.AddScoped<ImpactService>();
+
 var app = builder.Build();
 
 // HTTP pipeline

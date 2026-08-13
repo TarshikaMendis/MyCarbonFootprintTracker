@@ -1,0 +1,320 @@
+﻿@model CarbonFootprintTracker.Models.Donation
+@{
+    ViewData["Title"] = "Make a Donation";
+    var impact = ViewBag.Impact as CarbonFootprintTracker.Services.ImpactStats;
+}
+
+<style>
+    /* 🌿 LeafMark Donation Theme */
+    .donate-container {
+        background: #F0F7F0;
+        padding: 2rem 0;
+        min-height: 75vh;
+    }
+
+    .donate-card {
+        border: none;
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        background: #FFFFFF;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .donate-card:hover {
+        box-shadow: 0 12px 40px rgba(46, 125, 50, 0.12);
+    }
+
+    .donate-card .card-header {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        padding: 2rem;
+        border: none;
+        border-radius: 24px 24px 0 0;
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .donate-card .card-header h1 {
+        color: #FFFFFF;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .donate-card .card-header p {
+        color: #C8E6C9;
+        font-size: 1.1rem;
+    }
+
+    .donate-card .card-body {
+        padding: 2.5rem;
+    }
+
+    /* Impact Stats */
+    .impact-stats {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #F0F7F0;
+        border-radius: 16px;
+    }
+
+    .impact-stat {
+        text-align: center;
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .impact-stat .stat-icon {
+        font-size: 2.5rem;
+        display: block;
+    }
+
+    .impact-stat .stat-number {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1B5E20;
+    }
+
+    .impact-stat .stat-label {
+        font-size: 0.85rem;
+        color: #4A5568;
+    }
+
+    /* Causes Section */
+    .causes-section {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #E8F5E9 0%, #F0F7F0 100%);
+        border-radius: 16px;
+        border: 2px solid #C8E6C9;
+    }
+
+    .cause-item {
+        text-align: center;
+        flex: 1;
+        min-width: 80px;
+        padding: 0.5rem;
+    }
+
+    .cause-item .cause-icon {
+        font-size: 2.5rem;
+        display: block;
+    }
+
+    .cause-item .cause-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1B5E20;
+        margin-top: 0.3rem;
+    }
+
+    /* Form Styling */
+    .form-label-custom {
+        font-weight: 600;
+        color: #1B5E20;
+        font-size: 0.95rem;
+    }
+
+    .form-control-custom {
+        border-radius: 12px;
+        border: 2px solid #E8F5E9;
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #FAFDFA;
+        width: 100%;
+    }
+
+    .form-control-custom:focus {
+        border-color: #2E7D32;
+        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+        outline: none;
+    }
+
+    .btn-donate {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 50px;
+        padding: 0.9rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .btn-donate:hover {
+        background: linear-gradient(135deg, #1B5E20 0%, #0D3B0E 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+    }
+
+    .btn-donate:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .card-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .card-row .form-group {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .donate-card .card-header h1 {
+            font-size: 1.6rem;
+        }
+        .donate-card .card-body {
+            padding: 1.5rem;
+        }
+        .impact-stats {
+            flex-direction: column;
+            align-items: center;
+        }
+        .causes-section {
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-row {
+            flex-direction: column;
+        }
+        .btn-donate {
+            font-size: 1rem;
+            padding: 0.8rem 2rem;
+        }
+    }
+</style>
+
+<div class="donate-container">
+    <div class="container">
+        <div class="donate-card">
+            <!-- Header -->
+            <div class="card-header">
+                <h1>🌍 Make a Difference</h1>
+                <p>Your contribution helps us plant trees, recycle waste, and educate communities</p>
+            </div>
+
+            <div class="card-body">
+                <!-- Impact Stats -->
+                <div class="impact-stats">
+                    <div class="impact-stat">
+                        <span class="stat-icon">🌳</span>
+                        <div class="stat-number">@(impact?.TreesPlanted ?? 0)+</div>
+                        <div class="stat-label">Trees Planted</div>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="stat-icon">♻️</span>
+                        <div class="stat-number">@(impact?.WasteRecycled ?? 0)+</div>
+                        <div class="stat-label">kg Waste Recycled</div>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="stat-icon">📚</span>
+                        <div class="stat-number">@(impact?.SchoolsHelped ?? 0)+</div>
+                        <div class="stat-label">Schools Helped</div>
+                    </div>
+                    <div class="impact-stat">
+                        <span class="stat-icon">💰</span>
+                        <div class="stat-number">$@(impact?.TotalRaised ?? 0)</div>
+                        <div class="stat-label">Total Raised</div>
+                    </div>
+                </div>
+
+                <!-- Causes Section -->
+                <div class="causes-section">
+                    <div class="cause-item">
+                        <span class="cause-icon">🌳</span>
+                        <div class="cause-name">Plant Trees</div>
+                    </div>
+                    <div class="cause-item">
+                        <span class="cause-icon">♻️</span>
+                        <div class="cause-name">Recycle Waste</div>
+                    </div>
+                    <div class="cause-item">
+                        <span class="cause-icon">📚</span>
+                        <div class="cause-name">Educate Communities</div>
+                    </div>
+                </div>
+
+                <!-- Donation Form -->
+                <form asp-action="Index" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DonorName" class="form-label-custom">👤 Full Name</label>
+                            <input asp-for="DonorName" class="form-control-custom" placeholder="Enter your full name" required />
+                            <span asp-validation-for="DonorName" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DonorEmail" class="form-label-custom">📧 Email Address</label>
+                            <input asp-for="DonorEmail" class="form-control-custom" type="email" placeholder="Enter your email" required />
+                            <span asp-validation-for="DonorEmail" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="Amount" class="form-label-custom">💰 Donation Amount ($)</label>
+                            <input asp-for="Amount" class="form-control-custom" type="number" step="1" min="1" placeholder="Enter amount" required />
+                            <span asp-validation-for="Amount" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label-custom">💳 Card Details</label>
+                            <input asp-for="CardNumber" class="form-control-custom" placeholder="1234-5678-9012-3456" required />
+                            <span asp-validation-for="CardNumber" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CardExpiry" class="form-label-custom">📅 Expiry Date</label>
+                            <input asp-for="CardExpiry" class="form-control-custom" placeholder="MM/YY" required />
+                            <span asp-validation-for="CardExpiry" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CardCVV" class="form-label-custom">🔒 CVV</label>
+                            <input asp-for="CardCVV" class="form-control-custom" type="password" maxlength="4" placeholder="***" required />
+                            <span asp-validation-for="CardCVV" class="text-danger" style="font-size: 0.85rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="Message" class="form-label-custom">💚 Message (Optional)</label>
+                            <textarea asp-for="Message" class="form-control-custom" rows="2" placeholder="Leave a message of support..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-donate">
+                        🌱 Donate Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

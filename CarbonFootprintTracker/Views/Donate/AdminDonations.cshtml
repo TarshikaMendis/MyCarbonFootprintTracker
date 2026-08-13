@@ -1,0 +1,192 @@
+﻿@model IEnumerable<CarbonFootprintTracker.Models.Donation>
+@{
+    ViewData["Title"] = "Donation Management";
+    Layout = "_AdminLayout";
+    var totalAmount = ViewBag.TotalAmount as decimal? ?? 0;
+    var totalDonations = ViewBag.TotalDonations as int? ?? 0;
+}
+
+<style>
+    .admin-donations-container {
+        background: #F0F7F0;
+        padding: 0.5rem 0;
+    }
+
+    .header-card {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+        border-radius: 20px;
+        padding: 2rem 2.5rem;
+        color: #FFFFFF;
+        box-shadow: 0 10px 40px rgba(27, 94, 32, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .header-card::before {
+            content: '💰';
+            position: absolute;
+            right: 30px;
+            top: -10px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(10deg);
+        }
+
+        .header-card h2 {
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .header-card .stats-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+    .table-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        background: #FFFFFF;
+        overflow: hidden;
+    }
+
+    .donation-table thead th {
+        background: linear-gradient(135deg, #1a2332 0%, #0d1b2a 100%);
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 0.8rem 1rem;
+        border: none;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .donation-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #F0F7F0;
+    }
+
+        .donation-table tbody tr:hover {
+            background: #E8F5E9;
+        }
+
+    .donation-table tbody td {
+        padding: 0.8rem 1rem;
+        vertical-align: middle;
+        color: #2D3748;
+        font-size: 0.9rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.8rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        display: inline-block;
+    }
+
+    .status-badge-success {
+        background: #E8F5E9;
+        color: #1B5E20;
+    }
+
+    .status-badge-pending {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+
+    .status-badge-rejected {
+        background: #FFEBEE;
+        color: #B71C1C;
+    }
+
+    @@media (max-width: 768px) {
+        .header-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .header-card::before {
+            font-size: 5rem;
+        }
+
+        .header-card .stats-badge {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+
+<div class="admin-donations-container">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="header-card">
+                    <div>
+                        <h2>💰 Donation Management</h2>
+                        <p style="color: #C8E6C9; margin-bottom: 0.5rem;">Track all donations made through LeafMark</p>
+                        <div>
+                            <span class="stats-badge">📊 Total Donations: @totalDonations</span>
+                            <span class="stats-badge">💵 Total Raised: $@totalAmount</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="card-body" style="padding: 1.5rem;">
+                @if (Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table donation-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Donor</th>
+                                    <th>Email</th>
+                                    <th>Amount</th>
+                                    <th>Transaction ID</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var donation in Model)
+                                {
+                                    string statusClass = donation.Status == "Completed" ? "status-badge-success" :
+                                    donation.Status == "Pending" ? "status-badge-pending" : "status-badge-rejected";
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td><strong>@donation.DonorName</strong></td>
+                                        <td>@donation.DonorEmail</td>
+                                        <td><strong>$@donation.Amount</strong></td>
+                                        <td><span style="font-family: monospace; font-size: 0.85rem;">@donation.TransactionId</span></td>
+                                        <td><span class="status-badge @statusClass">@donation.Status</span></td>
+                                        <td>@donation.DonationDate.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div style="text-align: center; padding: 3rem 2rem; color: #4A5568;">
+                        <span style="font-size: 4rem; display: block; opacity: 0.5;">📭</span>
+                        <h5 style="color: #1B5E20; font-weight: 600;">No Donations Yet</h5>
+                        <p>Donations will appear here once users contribute.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
