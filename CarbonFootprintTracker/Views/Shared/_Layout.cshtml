@@ -23,7 +23,7 @@
             --white: #FFFFFF;
         }
 
-        /*  Force everything */
+        /* Force everything */
         html, body {
             height: 100% !important;
             margin: 0 !important;
@@ -92,7 +92,7 @@
             }
         }
 
-        /*  Remove margin from footer columns */
+        /* Remove margin from footer columns */
         .footer .col-md-3, .footer .col-6 {
             margin-bottom: 0 !important;
             padding: 2px 6px !important;
@@ -119,7 +119,7 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"> Home</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">🏠 Home</a>
                             </li>
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -129,24 +129,28 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">🔐 Admin Panel</a>
                                     </li>
                                 }
+                                <!--  Links -->
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index"> Dashboard</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Index">💬 AI Chat</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index"> Reports</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Rewards" asp-action="Index"> Rewards</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">📈 Reports</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Index"> My Activities</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Rewards" asp-action="Index">🏆 Rewards</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Create"> Add Activity</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Index">📋 My Activities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="CarbonActivities" asp-action="Create">➕ Add Activity</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"> Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">🔒 Privacy</a>
                             </li>
                         </ul>
                         <partial name="_LoginPartial" />
@@ -164,41 +168,53 @@
             </div>
         </div>
 
-        <!-- 🌿 LeafMark - SUPER COMPACT FOOTER  -->
+        <!-- 🌿 LeafMark - SUPER COMPACT FOOTER -->
         <footer class="footer">
             <div class="container" style="padding: 0 10px !important;">
                 <div class="row" style="margin: 0 !important;">
                     <!-- Brand -->
                     <div class="col-md-3 col-6" style="padding: 2px 6px !important;">
                         <div style="font-weight: 700; font-size: 1rem; color: #FFFFFF;">🍃 LeafMark</div>
-                        <div style="font-style: italic; font-size: 1rem; color: #A5D6A7;">"Leave a positive mark on the planet."</div>
+                        <div style="font-style: italic; font-size: 0.7rem; color: #A5D6A7;">"Leave a positive mark on the planet."</div>
                     </div>
 
                     <!-- Contact -->
                     <div class="col-md-3 col-6" style="padding: 2px 6px !important;">
-                        <div style="color: #FFFFFF; font-weight: 600; font-size: 1rem; margin-bottom: 1px;">Contact</div>
-                        <div style="font-size: 0.6rem; color: #A5D6A7; line-height: 1.3;">
-                            <div><i class="fas fa-envelope" style="color: #FFC107; width: 14px; font-size: 13px;"></i> <a href="mailto:support@leafmark.com" style="color: #A5D6A7; text-decoration: none;">support@leafmark.com</a></div>
-                            <div><i class="fas fa-phone" style="color: #FFC107; width: 14px; font-size: 13px;"></i> <a href="tel:+1234567890" style="color: #A5D6A7; text-decoration: none;">+1 (234) 567-890</a></div>
+                        <div style="color: #FFFFFF; font-weight: 600; font-size: 0.7rem; margin-bottom: 1px;">Contact</div>
+                        <div style="font-size: 0.65rem; color: #A5D6A7; line-height: 1.3;">
+                            <div><i class="fas fa-envelope" style="color: #FFC107; width: 14px; font-size: 10px;"></i> <a href="mailto:support@leafmark.com" style="color: #A5D6A7; text-decoration: none;">support@leafmark.com</a></div>
+                            <div><i class="fas fa-phone" style="color: #FFC107; width: 14px; font-size: 10px;"></i> <a href="tel:+1234567890" style="color: #A5D6A7; text-decoration: none;">+1 (234) 567-890</a></div>
                         </div>
                     </div>
 
+                    <!-- Quick Links -->
+                    <div class="col-md-3 col-6" style="padding: 2px 6px !important;">
+                        <div style="color: #FFFFFF; font-weight: 600; font-size: 0.7rem; margin-bottom: 1px;">Links</div>
+                        <div style="font-size: 0.65rem; color: #A5D6A7; line-height: 1.3;">
+                            <div><a asp-controller="Home" asp-action="Index" style="color: #A5D6A7; text-decoration: none;">🏠 Home</a></div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div><a asp-controller="Dashboard" asp-action="Index" style="color: #A5D6A7; text-decoration: none;">📊 Dashboard</a></div>
+                            }
+                            <div><a asp-controller="Home" asp-action="Privacy" style="color: #A5D6A7; text-decoration: none;">🔒 Privacy</a></div>
+                        </div>
+                    </div>
 
                     <!-- Social -->
                     <div class="col-md-3 col-6" style="padding: 2px 6px !important;">
-                        <div style="color: #FFFFFF; font-weight: 600; font-size: 1rem; margin-bottom: 1px;">Follow</div>
+                        <div style="color: #FFFFFF; font-weight: 600; font-size: 0.7rem; margin-bottom: 1px;">Follow</div>
                         <div style="display: flex; gap: 2px; flex-wrap: wrap;">
                             <a href="#" style="display: inline-block; width: 20px; height: 20px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 20px; font-size: 9px; color: #A5D6A7; transition: all 0.3s ease;"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" style="display: inline-block; width: 20px; height: 20px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 20px; font-size: 9px; color: #A5D6A7; transition: all 0.3s ease;"><i class="fab fa-twitter"></i></a>
                             <a href="#" style="display: inline-block; width: 20px; height: 20px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 20px; font-size: 9px; color: #A5D6A7; transition: all 0.3s ease;"><i class="fab fa-instagram"></i></a>
                             <a href="#" style="display: inline-block; width: 20px; height: 20px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 20px; font-size: 9px; color: #A5D6A7; transition: all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <div style="font-size: 1rem; color: #A5D6A7; margin-top: 1px;"><i class="fas fa-leaf" style="color: #FFC107;"></i> Join us!</div>
+                        <div style="font-size: 0.6rem; color: #A5D6A7; margin-top: 1px;"><i class="fas fa-leaf" style="color: #FFC107;"></i> Join us!</div>
                     </div>
                 </div>
 
                 <!-- Footer Bottom -->
-                <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; margin-top: 3px; font-size: 1rem; text-align: center; color: #A5D6A7;">
+                <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; margin-top: 3px; font-size: 0.55rem; text-align: center; color: #A5D6A7;">
                     &copy; @DateTime.Now.Year - 🍃 LeafMark | All Rights Reserved
                 </div>
             </div>

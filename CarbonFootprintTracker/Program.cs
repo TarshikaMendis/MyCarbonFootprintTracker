@@ -1,4 +1,5 @@
 ﻿using CarbonFootprintTracker.Data;
+using CarbonFootprintTracker.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Add Gemini Service
+builder.Services.AddScoped<GeminiService>();
 
 var app = builder.Build();
 
