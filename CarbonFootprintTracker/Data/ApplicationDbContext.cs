@@ -22,5 +22,7 @@ namespace CarbonFootprintTracker.Data
 
         // User Rewards Table
         public DbSet<UserReward> UserRewards { get; set; }
+
+        public DbSet<Donation> Donations { get; set; }
     }
 }
