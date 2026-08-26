@@ -7,16 +7,17 @@ namespace CarbonFootprintTracker.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
+        // ✅ USING THE WORKING MODEL
         private readonly string _baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
         // ✅ Fallback responses when API is unavailable
         private readonly List<string> _fallbackResponses = new List<string>
         {
-            " I'm currently experiencing high demand. Please try again in a few minutes. Meanwhile, here's a tip: Every small action counts! 💚",
-            " I'm taking a short break! Try asking me again soon. Remember, reducing your carbon footprint starts with small steps! 🌱",
-            " I'll be right back! While you wait, think about this: Walking or cycling instead of driving saves about 0.21 kg CO₂ per km! 🚲",
-            " Oops! I'm a bit busy right now. Please try again later. Did you know? Turning off lights saves electricity and reduces emissions! 💡",
-            " I'm currently unavailable. Please try again in a few moments. Keep up the great work tracking your carbon footprint! 🌱"
+            "🌿 I'm currently experiencing high demand. Please try again in a few minutes. Meanwhile, here's a tip: Every small action counts! 💚",
+            "🌍 I'm taking a short break! Try asking me again soon. Remember, reducing your carbon footprint starts with small steps! 🌱",
+            "💚 I'll be right back! While you wait, think about this: Walking or cycling instead of driving saves about 0.21 kg CO₂ per km! 🚲",
+            "🌿 Oops! I'm a bit busy right now. Please try again later. Did you know? Turning off lights saves electricity and reduces emissions! 💡",
+            "🌍 I'm currently unavailable. Please try again in a few moments. Keep up the great work tracking your carbon footprint! 🌱"
         };
 
         private int _fallbackIndex = 0;
@@ -31,7 +32,6 @@ namespace CarbonFootprintTracker.Services
         {
             try
             {
-                // Build the request payload
                 var requestBody = new
                 {
                     contents = new[]
@@ -54,7 +54,6 @@ namespace CarbonFootprintTracker.Services
                 var json = JsonSerializer.Serialize(requestBody);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // Make the API call
                 var response = await _httpClient.PostAsync($"{_baseUrl}?key={_apiKey}", content);
 
                 if (response.IsSuccessStatusCode)
@@ -63,7 +62,6 @@ namespace CarbonFootprintTracker.Services
                     using var document = JsonDocument.Parse(responseJson);
                     var root = document.RootElement;
 
-                    // Extract the AI response
                     var candidates = root.GetProperty("candidates");
                     if (candidates.GetArrayLength() > 0)
                     {
@@ -79,7 +77,6 @@ namespace CarbonFootprintTracker.Services
                     return "I couldn't generate a response. Please try again.";
                 }
 
-                // ✅ FALLBACK: When Gemini API is unavailable (503, 429, etc.)
                 if (response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable ||
                     response.StatusCode == System.Net.HttpStatusCode.TooManyRequests ||
                     response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
@@ -92,12 +89,10 @@ namespace CarbonFootprintTracker.Services
             }
             catch (Exception ex)
             {
-                // ✅ FALLBACK: When there's any error
                 return GetFallbackResponse();
             }
         }
 
-        // ✅ Returns a different fallback message each time
         private string GetFallbackResponse()
         {
             var response = _fallbackResponses[_fallbackIndex];
